@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{% block title %}DairySphere{% endblock %}</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body>
+
+<div class="app-container">
+
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar">
+
+        <div class="brand-logo">
+
+            <div class="brand-icon">
+                DS
+            </div>
+
+            <div>
+                <h2>DairySphere</h2>
+                <span>Dairy Supply Chain</span>
+            </div>
+
+        </div>
+
+
+        <div class="sidebar-section">
+
+            <p class="section-title">
+                MAIN MENU
+            </p>
+
+
+            <a href="{{ url_for('dashboard') }}"
+               class="menu-item">
+
+                <span class="menu-icon">DB</span>
+                <span>Dashboard</span>
+
+            </a>
+
+
+            <a href="{{ url_for('brands') }}"
+               class="menu-item">
+
+                <span class="menu-icon">BR</span>
+                <span>Brands</span>
+
+            </a>
+
+
+            <a href="{{ url_for('products') }}"
+               class="menu-item">
+
+                <span class="menu-icon">PR</span>
+                <span>Products</span>
+
+            </a>
+
+
+            <a href="{{ url_for('production') }}"
+               class="menu-item">
+
+                <span class="menu-icon">PD</span>
+                <span>Production</span>
+
+            </a>
+
+
+            <a href="{{ url_for('quality') }}"
+               class="menu-item">
+
+                <span class="menu-icon">QL</span>
+                <span>Quality</span>
+
+            </a>
+
+
+            <a href="{{ url_for('processing') }}"
+               class="menu-item">
+
+                <span class="menu-icon">PC</span>
+                <span>Processing</span>
+
+            </a>
+
+
+            <a href="{{ url_for('packaging') }}"
+               class="menu-item">
+
+                <span class="menu-icon">PK</span>
+                <span>Packaging</span>
+
+            </a>
+
+
+            <a href="{{ url_for('distribution') }}"
+               class="menu-item">
+
+                <span class="menu-icon">DS</span>
+                <span>Distribution</span>
+
+            </a>
+
+
+            <a href="{{ url_for('retail') }}"
+               class="menu-item">
+
+                <span class="menu-icon">RT</span>
+                <span>Retail</span>
+
+            </a>
+
+        </div>
+
+
+        <div class="sidebar-section">
+
+            <p class="section-title">
+                ANALYSIS
+            </p>
+
+
+            <a href="{{ url_for('india_map') }}"
+               class="menu-item">
+
+                <span class="menu-icon">IM</span>
+                <span>India Map</span>
+
+            </a>
+
+
+            <a href="{{ url_for('analytics') }}"
+               class="menu-item">
+
+                <span class="menu-icon">AN</span>
+                <span>Analytics</span>
+
+            </a>
+
+
+         <a href="{{ url_for('reports') }}"
+   class="menu-item">
+
+    <span class="menu-icon">RP</span>
+    <span>Reports</span>
+
+</a>
+
+        </div>
+
+
+        <div class="sidebar-footer">
+
+            <div class="system-status">
+
+                <span class="status-dot"></span>
+
+                <div>
+                    <strong>System Online</strong>
+                    <small>All services operational</small>
+                </div>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+
+
+    <!-- MAIN AREA -->
+
+    <div class="main-area">
+
+
+        <!-- TOP BAR -->
+
+        <header class="topbar">
+
+            <div class="topbar-left">
+
+                <div class="page-location">
+                    DairySphere
+                    <span>/</span>
+                    Management System
+                </div>
+
+            </div>
+
+
+            <div class="topbar-right">
+
+                <div class="notification">
+                    <span>3</span>
+                    Notifications
+                </div>
+
+
+                <div class="user-profile">
+
+                    <div class="user-avatar">
+                        {% if username %}
+                            {{ username[0]|upper }}
+                        {% else %}
+                            A
+                        {% endif %}
+                    </div>
+
+
+                    <div class="user-details">
+
+                        <strong>
+                            {% if username %}
+                                {{ username }}
+                            {% else %}
+                                Admin
+                            {% endif %}
+                        </strong>
+
+                        <small>
+                            Administrator
+                        </small>
+
+                    </div>
+
+                </div>
+
+
+                <a href="{{ url_for('logout') }}"
+                   class="logout-button">
+
+                    Logout
+
+                </a>
+
+            </div>
+
+        </header>
+
+
+
+        <!-- CONTENT -->
+
+        <main class="page-content">
+
+            {% block content %}
+
+            {% endblock %}
+
+        </main>
+
+
+        <!-- FOOTER -->
+
+        <footer class="footer">
+
+            <span>
+                DairySphere India Dairy Supply Chain Management System
+            </span>
+
+            <span>
+                © 2026 DairySphere
+            </span>
+
+        </footer>
+
+    </div>
+
+</div>
+
+</body>
+
+</html>

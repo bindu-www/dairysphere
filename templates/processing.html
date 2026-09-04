@@ -1,0 +1,545 @@
+{% extends "base.html" %}
+
+{% block title %}
+DairySphere | Processing
+{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+
+    <div>
+        <p class="breadcrumb">
+            DairySphere / Supply Chain / Processing
+        </p>
+
+        <h1>Processing Management</h1>
+
+        <p class="page-description">
+            Monitor dairy processing activities, facilities, input quantities,
+            and processed output across the supply chain.
+        </p>
+    </div>
+
+    <div class="page-status">
+        <span class="status-dot"></span>
+        Processing Active
+    </div>
+
+</div>
+
+
+<!-- PROCESSING STATISTICS -->
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+            <span>Total Records</span>
+            <div class="stat-icon">PR</div>
+        </div>
+
+        <h2>{{ total_records }}</h2>
+
+        <p>Processing records</p>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+            <span>Total Input</span>
+            <div class="stat-icon">IN</div>
+        </div>
+
+        <h2>{{ total_input }}</h2>
+
+        <p>Input quantity processed</p>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+            <span>Total Output</span>
+            <div class="stat-icon">OUT</div>
+        </div>
+
+        <h2>{{ total_output }}</h2>
+
+        <p>Processed output quantity</p>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+            <span>System Status</span>
+            <div class="stat-icon">AC</div>
+        </div>
+
+        <h2>Active</h2>
+
+        <p>Processing monitoring system</p>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN PROCESSING GRID -->
+<div class="brand-management-grid">
+
+
+    <!-- ADD PROCESSING -->
+    <section class="panel brand-form-panel">
+
+        <div class="panel-header">
+
+            <div>
+                <h2>Add Processing Record</h2>
+
+                <p>
+                    Register a new dairy processing activity
+                </p>
+            </div>
+
+            <div class="panel-code">
+                ADD
+            </div>
+
+        </div>
+
+
+        <form
+            action="{{ url_for('add_processing') }}"
+            method="POST"
+            class="brand-form"
+        >
+
+
+            <div class="form-group">
+
+                <label for="product_name">
+                    Product
+                </label>
+
+                <select
+                    id="product_name"
+                    name="product_name"
+                    required
+                >
+
+                    <option value="">
+                        Select product
+                    </option>
+
+                    {% for product in products %}
+
+                    <option value="{{ product['name'] }}">
+                        {{ product['name'] }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="process_type">
+                    Processing Type
+                </label>
+
+                <select
+                    id="process_type"
+                    name="process_type"
+                    required
+                >
+
+                    <option value="">
+                        Select processing type
+                    </option>
+
+                    <option value="Pasteurization">
+                        Pasteurization
+                    </option>
+
+                    <option value="Homogenization">
+                        Homogenization
+                    </option>
+
+                    <option value="Fermentation">
+                        Fermentation
+                    </option>
+
+                    <option value="Separation">
+                        Separation
+                    </option>
+
+                    <option value="Standardization">
+                        Standardization
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="input_quantity">
+                    Input Quantity
+                </label>
+
+                <input
+                    type="number"
+                    id="input_quantity"
+                    name="input_quantity"
+                    step="0.01"
+                    min="0"
+                    placeholder="Enter input quantity"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="output_quantity">
+                    Output Quantity
+                </label>
+
+                <input
+                    type="number"
+                    id="output_quantity"
+                    name="output_quantity"
+                    step="0.01"
+                    min="0"
+                    placeholder="Enter output quantity"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="processing_date">
+                    Processing Date
+                </label>
+
+                <input
+                    type="date"
+                    id="processing_date"
+                    name="processing_date"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="facility">
+                    Processing Facility
+                </label>
+
+                <input
+                    type="text"
+                    id="facility"
+                    name="facility"
+                    placeholder="Example: Bengaluru Plant"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="description">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    rows="5"
+                    placeholder="Enter processing details..."
+                ></textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-button"
+            >
+                Add Processing Record
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- PROCESSING INFORMATION -->
+    <section class="panel brand-info-panel">
+
+        <div class="panel-header">
+
+            <div>
+
+                <h2>Processing Network</h2>
+
+                <p>
+                    Dairy processing activities monitored by DairySphere
+                </p>
+
+            </div>
+
+            <div class="network-badge">
+                ACTIVE
+            </div>
+
+        </div>
+
+
+        <div class="network-summary">
+
+            <div class="summary-number">
+                {{ total_records }}
+            </div>
+
+            <div>
+
+                <strong>Processing Records</strong>
+
+                <p>
+                    Processing activities currently
+                    stored in the supply chain database.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="network-features">
+
+            <div class="feature-row">
+
+                <div class="feature-icon">
+                    IN
+                </div>
+
+                <div>
+
+                    <strong>Input Tracking</strong>
+
+                    <span>
+                        Monitor raw material quantity
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="feature-row">
+
+                <div class="feature-icon">
+                    PR
+                </div>
+
+                <div>
+
+                    <strong>Processing</strong>
+
+                    <span>
+                        Track processing operations
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="feature-row">
+
+                <div class="feature-icon">
+                    OT
+                </div>
+
+                <div>
+
+                    <strong>Output Tracking</strong>
+
+                    <span>
+                        Monitor processed quantity
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- PROCESSING RECORDS -->
+<section class="panel registered-brands-panel">
+
+    <div class="panel-header">
+
+        <div>
+
+            <h2>Processing Records</h2>
+
+            <p>
+                Complete processing activities stored in the database
+            </p>
+
+        </div>
+
+        <div class="record-count">
+            {{ processing|length }} Records
+        </div>
+
+    </div>
+
+
+    {% if processing %}
+
+    <div class="brand-table-wrapper">
+
+        <table class="brand-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Product</th>
+
+                    <th>Process Type</th>
+
+                    <th>Input</th>
+
+                    <th>Output</th>
+
+                    <th>Date</th>
+
+                    <th>Facility</th>
+
+                    <th>Description</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for item in processing %}
+
+                <tr>
+
+                    <td>
+
+                        <strong>
+                            {{ item['product_name'] }}
+                        </strong>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="company-badge">
+                            {{ item['process_type'] }}
+                        </span>
+
+                    </td>
+
+
+                    <td>
+                        {{ item['input_quantity'] }}
+                    </td>
+
+
+                    <td>
+                        {{ item['output_quantity'] }}
+                    </td>
+
+
+                    <td>
+                        {{ item['processing_date'] }}
+                    </td>
+
+
+                    <td>
+                        {{ item['facility'] }}
+                    </td>
+
+
+                    <td class="description-cell">
+
+                        {% if item['description'] %}
+
+                            {{ item['description'] }}
+
+                        {% else %}
+
+                            No description
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <div class="empty-icon">
+            PR
+        </div>
+
+        <h3>No Processing Records</h3>
+
+        <p>
+            Add your first processing record using
+            the form above.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

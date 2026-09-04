@@ -1,0 +1,493 @@
+{% extends "base.html" %}
+
+{% block title %}
+DairySphere | Quality
+{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+
+    <div>
+        <p class="breadcrumb">
+            DairySphere / Supply Chain / Quality
+        </p>
+
+        <h1>Quality Management</h1>
+
+        <p class="page-description">
+            Monitor milk quality, testing parameters and compliance
+            across the dairy supply chain.
+        </p>
+    </div>
+
+    <div class="page-status">
+        <span class="status-dot"></span>
+        System Operational
+    </div>
+
+</div>
+
+
+<!-- QUALITY STATISTICS -->
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+            <span>Quality Rate</span>
+            <div class="stat-icon">QL</div>
+        </div>
+
+        <h2>98%</h2>
+
+        <p>Overall quality compliance</p>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+            <span>Tests Completed</span>
+            <div class="stat-icon">TS</div>
+        </div>
+
+        <h2>1,250</h2>
+
+        <p>Quality tests monitored</p>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+            <span>Approved Batches</span>
+            <div class="stat-icon">AP</div>
+        </div>
+
+        <h2>96%</h2>
+
+        <p>Batches meeting standards</p>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+            <span>Quality Status</span>
+            <div class="stat-icon">AC</div>
+        </div>
+
+        <h2>Active</h2>
+
+        <p>Quality monitoring operational</p>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN QUALITY GRID -->
+<div class="brand-management-grid">
+
+
+    <!-- QUALITY ENTRY -->
+    <section class="panel brand-form-panel">
+
+        <div class="panel-header">
+
+            <div>
+
+                <h2>Quality Test Entry</h2>
+
+                <p>
+                    Record dairy quality testing information
+                </p>
+
+            </div>
+
+            <div class="panel-code">
+                ADD
+            </div>
+
+        </div>
+
+
+       <form method="POST" action="{{ url_for('add_quality') }}">
+
+
+            <!-- PRODUCT -->
+            <div class="form-group">
+
+                <label for="product">
+                    Product
+                </label>
+
+                <select name="product_name" required>
+
+                    <option value="">
+                        Select Product
+                    </option>
+
+                    <option value="Milk">
+                        Milk
+                    </option>
+
+                    <option value="Curd">
+                        Curd
+                    </option>
+
+                    <option value="Paneer">
+                        Paneer
+                    </option>
+
+                    <option value="Butter">
+                        Butter
+                    </option>
+
+                    <option value="Ghee">
+                        Ghee
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- BATCH NUMBER -->
+<div class="form-group">
+
+    <label for="batch_number">
+        Batch Number
+    </label>
+
+    <input
+        type="text"
+        id="batch_number"
+        name="batch_number"
+        placeholder="Example: BAT-001"
+        required
+    >
+
+</div>
+
+            <!-- FAT -->
+            <div class="form-group">
+
+                <label for="fat">
+                    Fat Percentage
+                </label>
+
+                <input
+                    type="number"
+                    id="fat"
+                    name="fat"
+                    placeholder="Example: 4.5"
+                    min="0"
+                    step="0.01"
+                >
+
+            </div>
+
+
+            <!-- SNF -->
+            <div class="form-group">
+
+                <label for="snf">
+                    SNF Percentage
+                </label>
+
+                <input
+                    type="number"
+                    id="snf"
+                    name="snf"
+                    placeholder="Example: 8.5"
+                    min="0"
+                    step="0.01"
+                >
+
+            </div>
+
+
+            <!-- TEST DATE -->
+            <div class="form-group">
+
+                <label for="test_date">
+                    Test Date
+                </label>
+
+                <input
+                    type="date"
+                    id="test_date"
+                    name="test_date"
+                    required
+                >
+
+            </div>
+
+
+            <!-- RESULT -->
+            <div class="form-group">
+
+                <label for="result">
+                    Quality Result
+                </label>
+
+                <select id="result" name="result" required>
+
+                    <option value="">
+                        Select result
+                    </option>
+
+                    <option value="Approved">
+                        Approved
+                    </option>
+
+                    <option value="Pending">
+                        Pending
+                    </option>
+
+                    <option value="Rejected">
+                        Rejected
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- REMARKS -->
+            <div class="form-group">
+
+                <label for="remarks">
+                    Remarks
+                </label>
+
+                <textarea
+                    id="remarks"
+                    name="remarks"
+                    rows="5"
+                    placeholder="Enter quality testing remarks..."
+                ></textarea>
+
+            </div>
+
+
+            <button type="submit" class="primary-button">
+                Record Quality Test
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- QUALITY INFORMATION -->
+    <section class="panel brand-info-panel">
+
+        <div class="panel-header">
+
+            <div>
+
+                <h2>Quality Network</h2>
+
+                <p>
+                    Dairy quality monitoring system
+                </p>
+
+            </div>
+
+            <div class="network-badge">
+                INDIA
+            </div>
+
+        </div>
+
+
+        <div class="network-summary">
+
+            <div class="summary-number">
+                98%
+            </div>
+
+            <div>
+
+                <strong>Quality Compliance</strong>
+
+                <p>
+                    Dairy products are monitored against
+                    defined quality parameters.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="network-features">
+
+
+            <div class="feature-row">
+
+                <div class="feature-icon">
+                    FT
+                </div>
+
+                <div>
+
+                    <strong>Fat Testing</strong>
+
+                    <span>
+                        Monitor fat percentage
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="feature-row">
+
+                <div class="feature-icon">
+                    SN
+                </div>
+
+                <div>
+
+                    <strong>SNF Testing</strong>
+
+                    <span>
+                        Monitor solid-not-fat levels
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="feature-row">
+
+                <div class="feature-icon">
+                    QC
+                </div>
+
+                <div>
+
+                    <strong>Quality Control</strong>
+
+                    <span>
+                        Verify product quality standards
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- QUALITY RECORDS -->
+<section class="panel registered-brands-panel">
+
+    <div class="panel-header">
+
+        <div>
+
+            <h2>Quality Records</h2>
+
+            <p>
+                Current dairy quality testing information
+            </p>
+
+        </div>
+
+        <div class="record-count">
+            Quality Monitoring
+        </div>
+
+    </div>
+
+
+    <!-- QUALITY OVERVIEW TABLE -->
+
+    <div class="brand-table-wrapper">
+
+    <table class="brand-table">
+
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Batch Number</th>
+                <th>Fat %</th>
+                <th>SNF %</th>
+                <th>Test Date</th>
+                <th>Result</th>
+                <th>Remarks</th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            {% if quality %}
+
+                {% for item in quality %}
+
+                <tr>
+
+                    <td>
+                        {{ item["product_name"] }}
+                    </td>
+
+                    <td>
+                        {{ item["batch_number"] }}
+                    </td>
+
+                    <td>
+                        {{ item["fat"] }}
+                    </td>
+
+                    <td>
+                        {{ item["snf"] }}
+                    </td>
+
+                    <td>
+                        {{ item["test_date"] }}
+                    </td>
+
+                    <td>
+                        {{ item["result"] }}
+                    </td>
+
+                    <td>
+                        {{ item["remarks"] or "-" }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            {% else %}
+
+                <tr>
+                    <td colspan="7">
+                        No quality records available.
+                    </td>
+                </tr>
+
+            {% endif %}
+
+        </tbody>
+
+    </table>
+
+</div>
+{% endblock %}

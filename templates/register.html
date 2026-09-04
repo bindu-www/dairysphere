@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>DairySphere | Register</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+
+<body class="login-page">
+
+
+<div class="login-wrapper">
+
+
+    <div class="login-card">
+
+
+        <div class="brand-section">
+
+            <div class="brand-mark">
+                DS
+            </div>
+
+            <h1>DairySphere</h1>
+
+            <p>
+                Create your account
+            </p>
+
+        </div>
+
+
+        <div class="login-content">
+
+            <h2>Create Account</h2>
+
+            <p class="login-description">
+                Register to access the dairy supply chain system.
+            </p>
+
+
+            {% if error %}
+
+            <div class="error-message">
+                {{ error }}
+            </div>
+
+            {% endif %}
+
+
+            <form method="POST">
+
+
+                <div class="form-group">
+
+                    <label>
+                        Username
+                    </label>
+
+                    <input
+                        type="text"
+                        name="username"
+                        placeholder="Create username"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Password
+                    </label>
+
+                    <input
+                        type="password"
+                        name="password"
+                        placeholder="Create password"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Confirm Password
+                    </label>
+
+                    <input
+                        type="password"
+                        name="confirm_password"
+                        placeholder="Confirm password"
+                        required
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="login-button">
+
+                    Create Account
+
+                </button>
+
+
+            </form>
+
+
+            <div class="register-link">
+
+                <p>
+                    Already have an account?
+
+                    <a href="/login">
+                        Sign in
+                    </a>
+                </p>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

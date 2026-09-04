@@ -1,0 +1,574 @@
+{% extends "base.html" %}
+
+
+{% block title %}
+DairySphere | Dashboard
+{% endblock %}
+
+
+{% block content %}
+
+
+<!-- PAGE HEADER -->
+
+<div class="page-header">
+
+    <div>
+
+        <p class="breadcrumb">
+            Dashboard / Overview
+        </p>
+
+        <h1>
+            India Dairy Supply Chain
+        </h1>
+
+        <p class="page-description">
+            Monitor and manage the complete dairy supply chain
+            from production to consumer delivery.
+        </p>
+
+    </div>
+
+
+    <div class="date-box">
+
+        <span>
+            SYSTEM STATUS
+        </span>
+
+        <strong>
+            Operational
+        </strong>
+
+    </div>
+
+</div>
+
+
+
+<!-- STATISTICS -->
+
+<div class="stats-grid">
+
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+
+            <span>
+                Registered Brands
+            </span>
+
+            <div class="stat-icon">
+                BR
+            </div>
+
+        </div>
+
+        <h2>
+            12
+        </h2>
+
+        <p>
+            Dairy brands monitored
+        </p>
+
+    </div>
+
+
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+
+            <span>
+                Dairy Products
+            </span>
+
+            <div class="stat-icon">
+                PR
+            </div>
+
+        </div>
+
+        <h2>
+            35
+        </h2>
+
+        <p>
+            Products across categories
+        </p>
+
+    </div>
+
+
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+
+            <span>
+                Daily Production
+            </span>
+
+            <div class="stat-icon">
+                PD
+            </div>
+
+        </div>
+
+        <h2>
+            500K
+        </h2>
+
+        <p>
+            Litres processed per day
+        </p>
+
+    </div>
+
+
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+
+            <span>
+                Quality Rate
+            </span>
+
+            <div class="stat-icon">
+                QL
+            </div>
+
+        </div>
+
+        <h2>
+            98%
+        </h2>
+
+        <p>
+            Quality compliance rate
+        </p>
+
+    </div>
+
+</div>
+
+
+
+<!-- SUPPLY CHAIN -->
+
+<section class="panel">
+
+    <div class="panel-header">
+
+        <div>
+
+            <h2>
+                Supply Chain Overview
+            </h2>
+
+            <p>
+                End-to-end dairy movement
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="chain">
+
+
+        <a href="{{ url_for('production') }}"
+           class="chain-step">
+
+            <div class="chain-number">
+                01
+            </div>
+
+            <h3>
+                Farmers
+            </h3>
+
+            <p>
+                Milk production
+            </p>
+
+        </a>
+
+
+        <div class="chain-line"></div>
+
+
+        <a href="{{ url_for('production') }}"
+           class="chain-step">
+
+            <div class="chain-number">
+                02
+            </div>
+
+            <h3>
+                Collection
+            </h3>
+
+            <p>
+                Milk collection
+            </p>
+
+        </a>
+
+
+        <div class="chain-line"></div>
+
+
+        <a href="{{ url_for('quality') }}"
+           class="chain-step">
+
+            <div class="chain-number">
+                03
+            </div>
+
+            <h3>
+                Quality
+            </h3>
+
+            <p>
+                Quality testing
+            </p>
+
+        </a>
+
+
+        <div class="chain-line"></div>
+
+
+        <a href="{{ url_for('processing') }}"
+           class="chain-step">
+
+            <div class="chain-number">
+                04
+            </div>
+
+            <h3>
+                Processing
+            </h3>
+
+            <p>
+                Milk processing
+            </p>
+
+        </a>
+
+
+        <div class="chain-line"></div>
+
+
+        <a href="{{ url_for('packaging') }}"
+           class="chain-step">
+
+            <div class="chain-number">
+                05
+            </div>
+
+            <h3>
+                Packaging
+            </h3>
+
+            <p>
+                Product packaging
+            </p>
+
+        </a>
+
+
+        <div class="chain-line"></div>
+
+
+        <a href="{{ url_for('distribution') }}"
+           class="chain-step">
+
+            <div class="chain-number">
+                06
+            </div>
+
+            <h3>
+                Distribution
+            </h3>
+
+            <p>
+                Logistics network
+            </p>
+
+        </a>
+
+
+        <div class="chain-line"></div>
+
+
+        <a href="{{ url_for('retail') }}"
+           class="chain-step">
+
+            <div class="chain-number">
+                07
+            </div>
+
+            <h3>
+                Retail
+            </h3>
+
+            <p>
+                Consumer delivery
+            </p>
+
+        </a>
+
+
+    </div>
+
+</section>
+
+
+
+<!-- LOWER SECTION -->
+
+<div class="dashboard-grid">
+
+
+    <!-- REGIONAL COVERAGE -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+
+            <div>
+
+                <h2>
+                    Regional Coverage
+                </h2>
+
+                <p>
+                    Current monitoring areas
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="region-list">
+
+
+            <div class="region-row">
+
+                <div>
+
+                    <strong>
+                        Karnataka
+                    </strong>
+
+                    <span>
+                        Primary region
+                    </span>
+
+                </div>
+
+                <strong>
+                    Active
+                </strong>
+
+            </div>
+
+
+            <div class="region-row">
+
+                <div>
+
+                    <strong>
+                        Maharashtra
+                    </strong>
+
+                    <span>
+                        Monitoring region
+                    </span>
+
+                </div>
+
+                <strong>
+                    Active
+                </strong>
+
+            </div>
+
+
+            <div class="region-row">
+
+                <div>
+
+                    <strong>
+                        Gujarat
+                    </strong>
+
+                    <span>
+                        Monitoring region
+                    </span>
+
+                </div>
+
+                <strong>
+                    Active
+                </strong>
+
+            </div>
+
+
+            <div class="region-row">
+
+                <div>
+
+                    <strong>
+                        Tamil Nadu
+                    </strong>
+
+                    <span>
+                        Monitoring region
+                    </span>
+
+                </div>
+
+                <strong>
+                    Active
+                </strong>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+
+    <!-- SYSTEM MODULES -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+
+            <div>
+
+                <h2>
+                    System Modules
+                </h2>
+
+                <p>
+                    Core management functions
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="module-list">
+
+
+            <a href="{{ url_for('brands') }}"
+               class="module-row">
+
+                <div class="module-code">
+                    BR
+                </div>
+
+                <div>
+
+                    <strong>
+                        Brand Management
+                    </strong>
+
+                    <p>
+                        Manage dairy companies and brands
+                    </p>
+
+                </div>
+
+            </a>
+
+
+            <a href="{{ url_for('production') }}"
+               class="module-row">
+
+                <div class="module-code">
+                    PD
+                </div>
+
+                <div>
+
+                    <strong>
+                        Production Management
+                    </strong>
+
+                    <p>
+                        Track milk production
+                    </p>
+
+                </div>
+
+            </a>
+
+
+            <a href="{{ url_for('quality') }}"
+               class="module-row">
+
+                <div class="module-code">
+                    QL
+                </div>
+
+                <div>
+
+                    <strong>
+                        Quality Management
+                    </strong>
+
+                    <p>
+                        Monitor quality parameters
+                    </p>
+
+                </div>
+
+            </a>
+
+
+            <a href="{{ url_for('distribution') }}"
+               class="module-row">
+
+                <div class="module-code">
+                    DS
+                </div>
+
+                <div>
+
+                    <strong>
+                        Distribution Management
+                    </strong>
+
+                    <p>
+                        Monitor supply movement
+                    </p>
+
+                </div>
+
+            </a>
+
+
+        </div>
+
+    </section>
+
+
+</div>
+
+
+{% endblock %}

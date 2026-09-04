@@ -1,0 +1,995 @@
+{% extends "base.html" %}
+
+{% block title %}
+DairySphere | India Map
+{% endblock %}
+
+{% block content %}
+
+<style>
+
+/* ================================
+   INDIA MAP PAGE
+================================ */
+
+.india-map-page {
+    width: 100%;
+}
+
+
+/* PAGE HEADER */
+
+.map-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.map-page-header h1 {
+    margin: 5px 0 8px;
+    font-size: 30px;
+}
+
+.map-page-header .breadcrumb {
+    margin: 0;
+}
+
+.map-description {
+    color: #6b7280;
+    margin: 0;
+}
+
+.map-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: #f0fdf4;
+    color: #166534;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.status-dot-map {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #22c55e;
+}
+
+
+/* STATISTICS */
+
+.map-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.map-stat-card {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.map-stat-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.map-stat-top span {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.map-stat-icon {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: #f3f4f6;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.map-stat-card h2 {
+    margin: 12px 0 4px;
+    font-size: 25px;
+}
+
+.map-stat-card p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+
+/* MAIN MAP AREA */
+
+.map-main-grid {
+    display: grid;
+    grid-template-columns: 35% 65%;
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+
+/* LEFT INFORMATION CARD */
+
+.map-info-panel {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.map-info-content {
+    padding: 22px;
+}
+
+.map-info-content h2 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 21px;
+}
+
+.map-info-content > p {
+    color: #6b7280;
+    line-height: 1.6;
+    font-size: 14px;
+}
+
+
+/* IMAGE */
+
+.dairy-image-wrapper {
+    margin: 20px 0;
+}
+
+.dairy-network-image {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    border-radius: 10px;
+    display: block;
+}
+
+
+/* FEATURES */
+
+.map-feature-list {
+    border-top: 1px solid #e5e7eb;
+    margin-top: 18px;
+    padding-top: 10px;
+}
+
+.map-feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 0;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.map-feature:last-child {
+    border-bottom: none;
+}
+
+.map-feature-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.map-feature strong {
+    display: block;
+    font-size: 14px;
+}
+
+.map-feature span {
+    display: block;
+    color: #6b7280;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+
+/* RIGHT MAP PANEL */
+
+.map-panel {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.map-panel-header {
+    padding: 20px 22px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.map-panel-header h2 {
+    margin: 0 0 5px;
+    font-size: 21px;
+}
+
+.map-panel-header p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.map-badge {
+    padding: 7px 12px;
+    background: #f3f4f6;
+    border-radius: 7px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+
+/* ACTUAL MAP */
+
+#indiaMap {
+    width: 100%;
+    height: 530px;
+}
+
+
+/* MAP LEGEND */
+
+.map-legend {
+    position: relative;
+    margin: -115px 20px 20px;
+    width: 220px;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 15px;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.map-legend h3 {
+    margin: 0 0 12px;
+    font-size: 14px;
+}
+
+.legend-row {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: #4b5563;
+}
+
+.legend-marker {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.production-marker {
+    background: #2563eb;
+}
+
+.processing-marker {
+    background: #f59e0b;
+}
+
+.distribution-marker {
+    background: #16a34a;
+}
+
+
+/* NETWORK LOCATION TABLE */
+
+.network-location-panel {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.network-location-header {
+    padding: 20px 22px;
+    border-bottom: 1px solid #e5e7eb;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.network-location-header h2 {
+    margin: 0 0 5px;
+    font-size: 20px;
+}
+
+.network-location-header p {
+    margin: 0;
+    color: #6b7280;
+    font-size: 13px;
+}
+
+.location-count {
+    font-size: 12px;
+    font-weight: 600;
+    background: #f3f4f6;
+    padding: 7px 12px;
+    border-radius: 7px;
+}
+
+.location-table-wrapper {
+    overflow-x: auto;
+}
+
+.location-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.location-table th {
+    text-align: left;
+    padding: 13px 18px;
+    background: #f9fafb;
+    color: #6b7280;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.location-table td {
+    padding: 15px 18px;
+    border-top: 1px solid #f1f1f1;
+    font-size: 13px;
+}
+
+.location-name {
+    font-weight: 600;
+}
+
+.location-state {
+    color: #6b7280;
+    font-size: 12px;
+    margin-top: 3px;
+}
+
+.active-badge {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 6px;
+    background: #f0fdf4;
+    color: #166534;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 1000px) {
+
+    .map-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .map-main-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .map-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .map-page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    #indiaMap {
+        height: 400px;
+    }
+
+}
+
+</style>
+
+
+<div class="india-map-page">
+
+
+    <!-- ================================
+         PAGE HEADER
+    ================================= -->
+
+    <div class="map-page-header">
+
+        <div>
+
+            <p class="breadcrumb">
+                DairySphere / Analysis / India Map
+            </p>
+
+            <h1>India Dairy Network</h1>
+
+            <p class="map-description">
+                Monitor dairy production, processing and distribution
+                locations across India.
+            </p>
+
+        </div>
+
+
+        <div class="map-status">
+
+            <span class="status-dot-map"></span>
+
+            Network Operational
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================================
+         STATISTICS
+    ================================= -->
+
+    <div class="map-stats">
+
+
+        <div class="map-stat-card">
+
+            <div class="map-stat-top">
+
+                <span>States Covered</span>
+
+                <div class="map-stat-icon">
+                    ST
+                </div>
+
+            </div>
+
+            <h2>6</h2>
+
+            <p>Active monitoring states</p>
+
+        </div>
+
+
+        <div class="map-stat-card">
+
+            <div class="map-stat-top">
+
+                <span>Production Centres</span>
+
+                <div class="map-stat-icon">
+                    PR
+                </div>
+
+            </div>
+
+            <h2>{{ production_count }}</h2>
+
+            <p>Milk production locations</p>
+
+        </div>
+
+
+        <div class="map-stat-card">
+
+            <div class="map-stat-top">
+
+                <span>Processing Units</span>
+
+                <div class="map-stat-icon">
+                    PC
+                </div>
+
+            </div>
+
+            <h2>{{ processing_count }}</h2>
+
+            <p>Processing facilities</p>
+
+        </div>
+
+
+        <div class="map-stat-card">
+
+            <div class="map-stat-top">
+
+                <span>Distribution Hubs</span>
+
+                <div class="map-stat-icon">
+                    DS
+                </div>
+
+            </div>
+
+         <h2>{{ distribution_count }}</h2>
+
+            <p>Active distribution centres</p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================================
+         MAIN MAP + INFORMATION
+    ================================= -->
+
+    <div class="map-main-grid">
+
+
+        <!-- LEFT SIDE -->
+
+        <section class="map-info-panel">
+
+            <div class="map-info-content">
+
+                <h2>About DairySphere Network</h2>
+
+                <p>
+                    DairySphere provides a centralized view of the
+                    dairy supply chain from milk production to
+                    processing and distribution.
+                </p>
+
+
+                <!-- DAIRY IMAGE -->
+
+                <div class="dairy-image-wrapper">
+
+                    <img
+                        src="{{ url_for('static', filename='images/dairy-farm.jpg') }}"
+                        alt="Dairy Farm"
+                        class="dairy-network-image"
+                    >
+
+                </div>
+
+
+                <!-- FEATURES -->
+
+                <div class="map-feature-list">
+
+
+                    <div class="map-feature">
+
+                        <div class="map-feature-icon">
+                            PR
+                        </div>
+
+                        <div>
+
+                            <strong>Milk Production</strong>
+
+                            <span>
+                                Monitor production centres
+                                and milk collection.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="map-feature">
+
+                        <div class="map-feature-icon">
+                            QL
+                        </div>
+
+                        <div>
+
+                            <strong>Quality Monitoring</strong>
+
+                            <span>
+                                Track quality testing and
+                                compliance information.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="map-feature">
+
+                        <div class="map-feature-icon">
+                            PC
+                        </div>
+
+                        <div>
+
+                            <strong>Processing Network</strong>
+
+                            <span>
+                                Monitor processing facilities
+                                across regions.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="map-feature">
+
+                        <div class="map-feature-icon">
+                            DS
+                        </div>
+
+                        <div>
+
+                            <strong>Distribution</strong>
+
+                            <span>
+                                Track movement of dairy products
+                                to different markets.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- RIGHT SIDE MAP -->
+
+        <section class="map-panel">
+
+
+            <div class="map-panel-header">
+
+                <div>
+
+                    <h2>Live Network Map</h2>
+
+                    <p>
+                        Dairy supply chain locations
+                    </p>
+
+                </div>
+
+                <div class="map-badge">
+                    INDIA
+                </div>
+
+            </div>
+
+
+            <!-- ACTUAL MAP -->
+
+            <div id="indiaMap"></div>
+
+
+            <!-- MAP LEGEND -->
+
+            <div class="map-legend">
+
+                <h3>Network Legend</h3>
+
+
+                <div class="legend-row">
+
+                    <span class="legend-marker production-marker"></span>
+
+                    Production Centre
+
+                </div>
+
+
+                <div class="legend-row">
+
+                    <span class="legend-marker processing-marker"></span>
+
+                    Processing Unit
+
+                </div>
+
+
+                <div class="legend-row">
+
+                    <span class="legend-marker distribution-marker"></span>
+
+                    Distribution Hub
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+    </div>
+
+
+
+    <!-- ================================
+         NETWORK LOCATIONS
+    ================================= -->
+
+    <section class="network-location-panel">
+
+
+        <div class="network-location-header">
+
+            <div>
+
+                <h2>Dairy Network Locations</h2>
+
+                <p>
+                    Major monitoring locations currently connected
+                    to DairySphere.
+                </p>
+
+            </div>
+
+            <div class="location-count">
+    {{ production_locations|length }} Locations
+</div>
+
+        </div>
+
+
+        <div class="location-table-wrapper">
+
+            <table class="location-table">
+
+                <thead>
+<tr>
+    <th>Location</th>
+    <th>Production</th>
+    <th>Processing</th>
+    <th>Distribution</th>
+    <th>Retail</th>
+</tr>
+</thead>
+
+                
+
+
+                </tbody><tbody>
+
+{% for item in production_locations %}
+
+<tr>
+
+    <td>
+        <div class="location-name">
+            {{ item["location"] }}
+        </div>
+
+        <div class="location-state">
+            India
+        </div>
+    </td>
+
+    <td>
+        {{ item["total_quantity"] }}
+    </td>
+
+    <td>
+        -
+    </td>
+
+    <td>
+        -
+    </td>
+
+    <td>
+        -
+    </td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+</div>
+
+
+
+<!-- ================================
+     LEAFLET MAP
+================================= -->
+
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+
+<script
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+</script>
+
+
+<script>
+
+    /* CREATE INDIA MAP */
+
+    var map = L.map("indiaMap").setView(
+        [22.5937, 78.9629],
+        5
+    );
+
+
+    /* MAP BACKGROUND */
+
+    L.tileLayer(
+        "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+        {
+            maxZoom: 18,
+            attribution: "&copy; OpenStreetMap contributors"
+        }
+    ).addTo(map);
+
+
+
+    /* LOCATION DATA */
+
+    var locations = [
+
+        {
+            name: "Bengaluru",
+            state: "Karnataka",
+            lat: 12.9716,
+            lng: 77.5946,
+            type: "Production Centre",
+            production: "85K Litres/day",
+            processing: "12 Units",
+            distribution: "18 Hubs"
+        },
+
+        {
+            name: "Mumbai",
+            state: "Maharashtra",
+            lat: 19.0760,
+            lng: 72.8777,
+            type: "Processing Unit",
+            production: "72K Litres/day",
+            processing: "10 Units",
+            distribution: "15 Hubs"
+        },
+
+        {
+            name: "Ahmedabad",
+            state: "Gujarat",
+            lat: 23.0225,
+            lng: 72.5714,
+            type: "Distribution Hub",
+            production: "68K Litres/day",
+            processing: "9 Units",
+            distribution: "14 Hubs"
+        },
+
+        {
+            name: "Chennai",
+            state: "Tamil Nadu",
+            lat: 13.0827,
+            lng: 80.2707,
+            type: "Production Centre",
+            production: "61K Litres/day",
+            processing: "8 Units",
+            distribution: "12 Hubs"
+        },
+
+        {
+            name: "Vijayawada",
+            state: "Andhra Pradesh",
+            lat: 16.5062,
+            lng: 80.6480,
+            type: "Processing Unit",
+            production: "54K Litres/day",
+            processing: "7 Units",
+            distribution: "10 Hubs"
+        },
+
+        {
+            name: "Lucknow",
+            state: "Uttar Pradesh",
+            lat: 26.8467,
+            lng: 80.9462,
+            type: "Distribution Hub",
+            production: "76K Litres/day",
+            processing: "11 Units",
+            distribution: "16 Hubs"
+        }
+
+    ];
+    
+
+
+
+    /* ADD MARKERS */
+
+    locations.forEach(function(location) {
+
+        var marker = L.marker([
+            location.lat,
+            location.lng
+        ]).addTo(map);
+
+
+        marker.bindPopup(
+
+            "<div style='min-width:180px'>" +
+
+            "<h3 style='margin:0 0 8px'>" +
+            location.name +
+            "</h3>" +
+
+            "<p style='margin:4px 0'>" +
+            "<strong>State:</strong> " +
+            location.state +
+            "</p>" +
+
+            "<p style='margin:4px 0'>" +
+            "<strong>Type:</strong> " +
+            location.type +
+            "</p>" +
+
+            "<p style='margin:4px 0'>" +
+            "<strong>Production:</strong> " +
+            location.production +
+            "</p>" +
+
+            "<p style='margin:4px 0'>" +
+            "<strong>Processing:</strong> " +
+            location.processing +
+            "</p>" +
+
+            "<p style='margin:4px 0'>" +
+            "<strong>Distribution:</strong> " +
+            location.distribution +
+            "</p>" +
+
+            "</div>"
+
+        );
+
+    });
+
+
+</script>
+
+{% endblock %}

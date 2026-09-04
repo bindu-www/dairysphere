@@ -1,0 +1,592 @@
+{% extends "base.html" %}
+
+{% block title %}
+DairySphere | Products
+{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+
+    <div>
+        <p class="breadcrumb">
+            DairySphere / Management / Products
+        </p>
+
+        <h1>Products Management</h1>
+
+        <p class="page-description">
+            Manage dairy products manufactured and distributed
+            across the supply chain.
+        </p>
+    </div>
+
+    <div class="page-status">
+        <span class="status-dot"></span>
+        System Operational
+    </div>
+
+</div>
+
+
+<!-- PRODUCT STATISTICS -->
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+            <span>Total Products</span>
+            <div class="stat-icon">PR</div>
+        </div>
+
+        <h2>{{ products|length }}</h2>
+
+        <p>Registered dairy products</p>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+            <span>Product Categories</span>
+            <div class="stat-icon">CT</div>
+        </div>
+
+        <h2>
+            {{ products|map(attribute='category')|unique|list|length }}
+        </h2>
+
+        <p>Product categories available</p>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+            <span>Registered Brands</span>
+            <div class="stat-icon">BR</div>
+        </div>
+
+        <h2>{{ brands|length }}</h2>
+
+        <p>Brands supplying products</p>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+            <span>Supply Network</span>
+            <div class="stat-icon">IN</div>
+        </div>
+
+        <h2>India</h2>
+
+        <p>Pan-India dairy network</p>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN PRODUCT GRID -->
+<div class="brand-management-grid">
+
+
+    <!-- ADD PRODUCT -->
+    <section class="panel brand-form-panel">
+
+        <div class="panel-header">
+
+            <div>
+
+                <h2>Add New Product</h2>
+
+                <p>
+                    Register a dairy product in the supply chain
+                </p>
+
+            </div>
+
+            <div class="panel-code">
+                ADD
+            </div>
+
+        </div>
+
+
+        <form action="{{ url_for('add_product') }}"
+              method="POST"
+              class="brand-form">
+
+
+            <!-- PRODUCT NAME -->
+            <div class="form-group">
+
+                <label for="name">
+                    Product Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Example: Full Cream Milk"
+                    required
+                >
+
+            </div>
+
+
+            <!-- BRAND -->
+            <div class="form-group">
+
+                <label for="brand_id">
+                    Brand
+                </label>
+
+                <select
+                    id="brand_id"
+                    name="brand_id"
+                    required
+                >
+
+                    <option value="">
+                        Select brand
+                    </option>
+
+                    {% for brand in brands %}
+
+                    <option value="{{ brand.id }}">
+                        {{ brand.name }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- CATEGORY -->
+            <div class="form-group">
+
+                <label for="category">
+                    Product Category
+                </label>
+
+                <select
+                    id="category"
+                    name="category"
+                    required
+                >
+
+                    <option value="">
+                        Select category
+                    </option>
+
+                    <option value="Milk">
+                        Milk
+                    </option>
+
+                    <option value="Curd">
+                        Curd
+                    </option>
+
+                    <option value="Paneer">
+                        Paneer
+                    </option>
+
+                    <option value="Butter">
+                        Butter
+                    </option>
+
+                    <option value="Ghee">
+                        Ghee
+                    </option>
+
+                    <option value="Cheese">
+                        Cheese
+                    </option>
+
+                    <option value="Ice Cream">
+                        Ice Cream
+                    </option>
+
+                    <option value="Milk Powder">
+                        Milk Powder
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- QUANTITY -->
+            <div class="form-group">
+
+                <label for="quantity">
+                    Quantity
+                </label>
+
+                <input
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    placeholder="Example: 1000"
+                    min="0"
+                    step="0.01"
+                    required
+                >
+
+            </div>
+
+
+            <!-- UNIT -->
+            <div class="form-group">
+
+                <label for="unit">
+                    Unit
+                </label>
+
+                <select
+                    id="unit"
+                    name="unit"
+                    required
+                >
+
+                    <option value="">
+                        Select unit
+                    </option>
+
+                    <option value="Litres">
+                        Litres
+                    </option>
+
+                    <option value="Kg">
+                        Kg
+                    </option>
+
+                    <option value="Tonnes">
+                        Tonnes
+                    </option>
+
+                    <option value="Packets">
+                        Packets
+                    </option>
+
+                    <option value="Units">
+                        Units
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+            <div class="form-group">
+
+                <label for="description">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    rows="5"
+                    placeholder="Enter information about the dairy product..."
+                ></textarea>
+
+            </div>
+
+
+            <button type="submit" class="primary-button">
+                Add Product
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- PRODUCT INFORMATION -->
+    <section class="panel brand-info-panel">
+
+        <div class="panel-header">
+
+            <div>
+
+                <h2>Product Network</h2>
+
+                <p>
+                    Dairy products connected to DairySphere
+                </p>
+
+            </div>
+
+            <div class="network-badge">
+                INDIA
+            </div>
+
+        </div>
+
+
+        <div class="network-summary">
+
+            <div class="summary-number">
+                {{ products|length }}
+            </div>
+
+            <div>
+
+                <strong>Registered Products</strong>
+
+                <p>
+                    Products currently monitored
+                    within the dairy supply chain.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="network-features">
+
+
+            <div class="feature-row">
+
+                <div class="feature-icon">
+                    ML
+                </div>
+
+                <div>
+
+                    <strong>Milk Products</strong>
+
+                    <span>
+                        Fresh and processed milk products
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="feature-row">
+
+                <div class="feature-icon">
+                    DP
+                </div>
+
+                <div>
+
+                    <strong>Dairy Products</strong>
+
+                    <span>
+                        Curd, paneer, butter and cheese
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="feature-row">
+
+                <div class="feature-icon">
+                    DS
+                </div>
+
+                <div>
+
+                    <strong>Distribution</strong>
+
+                    <span>
+                        Products supplied across regions
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- REGISTERED PRODUCTS -->
+<section class="panel registered-brands-panel">
+
+    <div class="panel-header">
+
+        <div>
+
+            <h2>Registered Products</h2>
+
+            <p>
+                Complete list of dairy products in the system
+            </p>
+
+        </div>
+
+        <div class="record-count">
+            {{ products|length }} Records
+        </div>
+
+    </div>
+
+
+    {% if products %}
+
+    <div class="brand-table-wrapper">
+
+        <table class="brand-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Product</th>
+
+                    <th>Brand</th>
+
+                    <th>Category</th>
+
+                    <th>Quantity</th>
+
+                    <th>Description</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for product in products %}
+
+                <tr>
+
+
+                    <!-- PRODUCT -->
+                    <td>
+
+                        <div class="brand-name-cell">
+
+                            <div class="brand-avatar">
+                                {{ product.name[:2]|upper }}
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    {{ product.name }}
+                                </strong>
+
+                                <span>
+                                    Product ID:
+                                    PR-{{ "%03d"|format(product.id) }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+
+                    <!-- BRAND -->
+                    <td>
+
+                        <span class="company-badge">
+                            {{ product.brand_name }}
+                        </span>
+
+                    </td>
+
+
+                    <!-- CATEGORY -->
+                    <td>
+
+                        <span class="company-badge">
+                            {{ product.category }}
+                        </span>
+
+                    </td>
+
+
+                    <!-- QUANTITY -->
+                    <td>
+
+                        <strong>
+                            {{ product.quantity }}
+                        </strong>
+
+                        {{ product.unit }}
+
+                    </td>
+
+
+                    <!-- DESCRIPTION -->
+                    <td class="description-cell">
+
+                        {% if product.description %}
+
+                            {{ product.description }}
+
+                        {% else %}
+
+                            No description available
+
+                        {% endif %}
+
+                    </td>
+
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    {% else %}
+
+    <!-- EMPTY STATE -->
+    <div class="empty-state">
+
+        <div class="empty-icon">
+            PR
+        </div>
+
+        <h3>No Products Registered</h3>
+
+        <p>
+            Start building your dairy product network by adding
+            your first product using the form above.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

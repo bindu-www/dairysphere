@@ -1,0 +1,437 @@
+{% extends "base.html" %}
+
+{% block title %}DairySphere | Distribution{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <div class="breadcrumb">
+            DairySphere / Distribution
+        </div>
+
+        <h1>Distribution Management</h1>
+
+        <p class="page-description">
+            Manage dairy product movement from source locations to destinations.
+        </p>
+    </div>
+
+    <div class="page-status">
+        <span class="status-dot"></span>
+        Distribution Network Active
+    </div>
+</div>
+
+
+<!-- Statistics -->
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+        <div class="stat-header">
+            <span>Total Dispatches</span>
+            <div class="stat-icon">DS</div>
+        </div>
+
+        <h2>{{ total_records }}</h2>
+        <p>Recorded distribution entries</p>
+    </div>
+
+
+    <div class="stat-card">
+        <div class="stat-header">
+            <span>Total Quantity</span>
+            <div class="stat-icon">QT</div>
+        </div>
+
+        <h2>{{ total_quantity }}</h2>
+        <p>Total quantity dispatched</p>
+    </div>
+
+
+    <div class="stat-card">
+        <div class="stat-header">
+            <span>Products</span>
+            <div class="stat-icon">PR</div>
+        </div>
+
+        <h2>{{ products|length }}</h2>
+        <p>Products available for distribution</p>
+    </div>
+
+
+    <div class="stat-card">
+        <div class="stat-header">
+            <span>Network Status</span>
+            <div class="stat-icon">ON</div>
+        </div>
+
+        <h2>Active</h2>
+        <p>Distribution operations</p>
+    </div>
+
+</div>
+
+
+<!-- Distribution Management -->
+
+<div class="brand-management-grid">
+
+    <!-- Add Distribution -->
+
+    <div class="panel brand-form-panel">
+
+        <div class="panel-header">
+            <div>
+                <h2>Add Distribution Record</h2>
+                <p>Enter product dispatch information</p>
+            </div>
+
+            <span class="panel-code">DS-01</span>
+        </div>
+
+
+        <form
+            method="POST"
+            action="{{ url_for('add_distribution') }}"
+            class="brand-form"
+        >
+
+            <div class="form-group">
+                <label>Product</label>
+
+                <select name="product_name" required>
+
+                    <option value="">Select Product</option>
+
+                    {% for product in products %}
+                    <option value="{{ product['name'] }}">
+                        {{ product['name'] }}
+                    </option>
+                    {% endfor %}
+
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label>Quantity</label>
+
+                <input
+                    type="number"
+                    name="quantity"
+                    step="0.01"
+                    min="0"
+                    placeholder="Enter quantity"
+                    required
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label>Unit</label>
+
+                <select name="unit" required>
+
+                    <option value="">Select Unit</option>
+                    <option value="Litres">Litres</option>
+                    <option value="Kg">Kg</option>
+                    <option value="Units">Units</option>
+
+                </select>
+            </div>
+
+
+            <div class="form-group">
+                <label>Source</label>
+
+                <input
+                    type="text"
+                    name="source"
+                    placeholder="Enter source location"
+                    required
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label>Destination</label>
+
+                <input
+                    type="text"
+                    name="destination"
+                    placeholder="Enter destination"
+                    required
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label>Dispatch Date</label>
+
+                <input
+                    type="date"
+                    name="dispatch_date"
+                    required
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label>Transport</label>
+
+                <input
+                    type="text"
+                    name="transport"
+                    placeholder="Enter transport details"
+                >
+            </div>
+
+
+            <div class="form-group">
+                <label>Description</label>
+
+                <textarea
+                    name="description"
+                    rows="3"
+                    placeholder="Enter additional information"
+                ></textarea>
+            </div>
+
+
+            <button type="submit" class="primary-button">
+                Add Distribution Record
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- Network Information -->
+
+    <div class="panel brand-info-panel">
+
+        <div class="panel-header">
+            <div>
+                <h2>Distribution Network</h2>
+                <p>Dairy product movement overview</p>
+            </div>
+        </div>
+
+
+        <div class="network-badge">
+            DISTRIBUTION SYSTEM
+        </div>
+
+
+        <div class="network-summary">
+
+            <div>
+                <span class="summary-number">
+                    {{ total_records }}
+                </span>
+
+                <span>Dispatch Records</span>
+            </div>
+
+
+            <div>
+                <span class="summary-number">
+                    {{ total_quantity }}
+                </span>
+
+                <span>Total Quantity</span>
+            </div>
+
+        </div>
+
+
+        <div class="network-features">
+
+            <div class="feature-row">
+                <div class="feature-icon">01</div>
+
+                <div>
+                    <strong>Source Tracking</strong>
+                    <p>Track where dairy products are dispatched from.</p>
+                </div>
+            </div>
+
+
+            <div class="feature-row">
+                <div class="feature-icon">02</div>
+
+                <div>
+                    <strong>Destination Management</strong>
+                    <p>Record the destination of every dispatch.</p>
+                </div>
+            </div>
+
+
+            <div class="feature-row">
+                <div class="feature-icon">03</div>
+
+                <div>
+                    <strong>Transport Tracking</strong>
+                    <p>Maintain transport information for distribution.</p>
+                </div>
+            </div>
+
+
+            <div class="feature-row">
+                <div class="feature-icon">04</div>
+
+                <div>
+                    <strong>Quantity Monitoring</strong>
+                    <p>Monitor the quantity of products being distributed.</p>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- Distribution Records -->
+
+<div class="panel registered-brands-panel">
+
+    <div class="panel-header">
+
+        <div>
+            <h2>Distribution Records</h2>
+
+            <p>
+                Complete history of dairy product dispatches
+            </p>
+        </div>
+
+        <span class="record-count">
+            {{ distribution|length }} Records
+        </span>
+
+    </div>
+
+
+    {% if distribution %}
+
+    <div class="brand-table-wrapper">
+
+        <table class="brand-table">
+
+            <thead>
+
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Source</th>
+                    <th>Destination</th>
+                    <th>Dispatch Date</th>
+                    <th>Transport</th>
+                    <th>Description</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for item in distribution %}
+
+                <tr>
+
+                    <td>
+                        <div class="brand-name-cell">
+
+                            <div class="brand-avatar">
+                                {{ item['product_name'][0]|upper }}
+                            </div>
+
+                            <strong>
+                                {{ item['product_name'] }}
+                            </strong>
+
+                        </div>
+                    </td>
+
+
+                    <td>
+                        <strong>
+                            {{ item['quantity'] }}
+                        </strong>
+
+                        {{ item['unit'] }}
+                    </td>
+
+
+                    <td>
+                        {{ item['source'] }}
+                    </td>
+
+
+                    <td>
+                        {{ item['destination'] }}
+                    </td>
+
+
+                    <td>
+                        {{ item['dispatch_date'] }}
+                    </td>
+
+
+                    <td>
+
+                        {% if item['transport'] %}
+                            {{ item['transport'] }}
+                        {% else %}
+                            —
+                        {% endif %}
+
+                    </td>
+
+
+                    <td class="description-cell">
+
+                        {% if item['description'] %}
+                            {{ item['description'] }}
+                        {% else %}
+                            —
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <div class="empty-icon">
+            DS
+        </div>
+
+        <h3>No Distribution Records</h3>
+
+        <p>
+            Add your first distribution record using the form above.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</div>
+
+{% endblock %}

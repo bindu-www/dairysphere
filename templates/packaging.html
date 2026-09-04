@@ -1,0 +1,573 @@
+{% extends "base.html" %}
+
+{% block title %}
+DairySphere | Packaging
+{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+
+    <div>
+        <p class="breadcrumb">
+            DairySphere / Supply Chain / Packaging
+        </p>
+
+        <h1>Packaging Management</h1>
+
+        <p class="page-description">
+            Manage dairy product packaging, package sizes, quantities,
+            and packaging activities across processing facilities.
+        </p>
+    </div>
+
+    <div class="page-status">
+        <span class="status-dot"></span>
+        Packaging Active
+    </div>
+
+</div>
+
+
+<!-- PACKAGING STATISTICS -->
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+            <span>Total Records</span>
+            <div class="stat-icon">PK</div>
+        </div>
+
+        <h2>{{ total_records }}</h2>
+
+        <p>Packaging records</p>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+            <span>Total Quantity</span>
+            <div class="stat-icon">QT</div>
+        </div>
+
+        <h2>{{ total_quantity }}</h2>
+
+        <p>Products packaged</p>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+            <span>Products</span>
+            <div class="stat-icon">PR</div>
+        </div>
+
+        <h2>{{ products|length }}</h2>
+
+        <p>Available products</p>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+            <span>System Status</span>
+            <div class="stat-icon">AC</div>
+        </div>
+
+        <h2>Active</h2>
+
+        <p>Packaging monitoring system</p>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN PACKAGING GRID -->
+<div class="brand-management-grid">
+
+
+    <!-- ADD PACKAGING -->
+    <section class="panel brand-form-panel">
+
+        <div class="panel-header">
+
+            <div>
+
+                <h2>Add Packaging Record</h2>
+
+                <p>
+                    Register a new dairy product packaging activity
+                </p>
+
+            </div>
+
+            <div class="panel-code">
+                ADD
+            </div>
+
+        </div>
+
+
+        <form
+            action="{{ url_for('add_packaging') }}"
+            method="POST"
+            class="brand-form"
+        >
+
+
+            <div class="form-group">
+
+                <label for="product_name">
+                    Product
+                </label>
+
+                <select
+                    id="product_name"
+                    name="product_name"
+                    required
+                >
+
+                    <option value="">
+                        Select product
+                    </option>
+
+                    {% for product in products %}
+
+                    <option value="{{ product['name'] }}">
+                        {{ product['name'] }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="package_type">
+                    Package Type
+                </label>
+
+                <select
+                    id="package_type"
+                    name="package_type"
+                    required
+                >
+
+                    <option value="">
+                        Select package type
+                    </option>
+
+                    <option value="Pouch">
+                        Pouch
+                    </option>
+
+                    <option value="Bottle">
+                        Bottle
+                    </option>
+
+                    <option value="Cup">
+                        Cup
+                    </option>
+
+                    <option value="Box">
+                        Box
+                    </option>
+
+                    <option value="Packet">
+                        Packet
+                    </option>
+
+                    <option value="Container">
+                        Container
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="package_size">
+                    Package Size
+                </label>
+
+                <input
+                    type="text"
+                    id="package_size"
+                    name="package_size"
+                    placeholder="Example: 500 ml"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="quantity">
+                    Quantity
+                </label>
+
+                <input
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    step="0.01"
+                    min="0"
+                    placeholder="Enter quantity"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="packaging_unit">
+                    Unit
+                </label>
+
+                <select
+                    id="packaging_unit"
+                    name="packaging_unit"
+                    required
+                >
+
+                    <option value="">
+                        Select unit
+                    </option>
+
+                    <option value="Litres">
+                        Litres
+                    </option>
+
+                    <option value="Kilograms">
+                        Kilograms
+                    </option>
+
+                    <option value="Packets">
+                        Packets
+                    </option>
+
+                    <option value="Pieces">
+                        Pieces
+                    </option>
+
+                    <option value="Units">
+                        Units
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="packaging_date">
+                    Packaging Date
+                </label>
+
+                <input
+                    type="date"
+                    id="packaging_date"
+                    name="packaging_date"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="description">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    rows="5"
+                    placeholder="Enter packaging details..."
+                ></textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-button"
+            >
+                Add Packaging Record
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- PACKAGING INFORMATION -->
+    <section class="panel brand-info-panel">
+
+        <div class="panel-header">
+
+            <div>
+
+                <h2>Packaging Network</h2>
+
+                <p>
+                    Packaging activities monitored by DairySphere
+                </p>
+
+            </div>
+
+            <div class="network-badge">
+                ACTIVE
+            </div>
+
+        </div>
+
+
+        <div class="network-summary">
+
+            <div class="summary-number">
+                {{ total_records }}
+            </div>
+
+            <div>
+
+                <strong>Packaging Records</strong>
+
+                <p>
+                    Packaging activities currently
+                    stored in the supply chain database.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="network-features">
+
+            <div class="feature-row">
+
+                <div class="feature-icon">
+                    PK
+                </div>
+
+                <div>
+
+                    <strong>Package Tracking</strong>
+
+                    <span>
+                        Monitor package types and sizes
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="feature-row">
+
+                <div class="feature-icon">
+                    QT
+                </div>
+
+                <div>
+
+                    <strong>Quantity Tracking</strong>
+
+                    <span>
+                        Monitor packaged quantities
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="feature-row">
+
+                <div class="feature-icon">
+                    DT
+                </div>
+
+                <div>
+
+                    <strong>Date Tracking</strong>
+
+                    <span>
+                        Track packaging activities
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- PACKAGING RECORDS -->
+<section class="panel registered-brands-panel">
+
+    <div class="panel-header">
+
+        <div>
+
+            <h2>Packaging Records</h2>
+
+            <p>
+                Complete packaging activities stored in the database
+            </p>
+
+        </div>
+
+        <div class="record-count">
+            {{ packaging|length }} Records
+        </div>
+
+    </div>
+
+
+    {% if packaging %}
+
+    <div class="brand-table-wrapper">
+
+        <table class="brand-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Product</th>
+
+                    <th>Package Type</th>
+
+                    <th>Package Size</th>
+
+                    <th>Quantity</th>
+
+                    <th>Date</th>
+
+                    <th>Unit</th>
+
+                    <th>Description</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for item in packaging %}
+
+                <tr>
+
+                    <td>
+
+                        <strong>
+                            {{ item['product_name'] }}
+                        </strong>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="company-badge">
+                            {{ item['package_type'] }}
+                        </span>
+
+                    </td>
+
+
+                    <td>
+                        {{ item['package_size'] }}
+                    </td>
+
+
+                    <td>
+                        {{ item['quantity'] }}
+                    </td>
+
+
+                    <td>
+                        {{ item['packaging_date'] }}
+                    </td>
+
+
+                    <td>
+                        {{ item['packaging_unit'] or '-' }}
+                    </td>
+
+
+                    <td class="description-cell">
+
+                        {% if item['description'] %}
+
+                            {{ item['description'] }}
+
+                        {% else %}
+
+                            No description
+
+                        {% endif %}
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <div class="empty-icon">
+            PK
+        </div>
+
+        <h3>No Packaging Records</h3>
+
+        <p>
+            Add your first packaging record using
+            the form above.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

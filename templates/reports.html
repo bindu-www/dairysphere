@@ -1,0 +1,1585 @@
+{% extends "base.html" %}
+
+{% block title %}DairySphere | Reports{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+    <div>
+        <h1>Supply Chain Reports</h1>
+        <p>Generate and view dairy supply chain reports</p>
+    </div>
+</div>
+
+
+<!-- REPORT SUMMARY CARDS -->
+<div class="stats-grid">
+
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-label">Total Reports</span>
+            <span class="stat-value">08</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-label">Production</span>
+            <span class="stat-value">02</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-label">Quality</span>
+            <span class="stat-value">02</span>
+        </div>
+    </div>
+
+    <div class="stat-card">
+        <div class="stat-info">
+            <span class="stat-label">Distribution</span>
+            <span class="stat-value">04</span>
+        </div>
+    </div>
+
+</div>
+
+
+<!-- GENERATE REPORT FORM -->
+<section class="panel">
+
+    <div class="panel-header">
+        <div>
+            <h2>Generate Report</h2>
+            <p>Select the required options to generate a report</p>
+        </div>
+    </div>
+
+
+    <form action="{{ url_for('reports') }}" method="POST" class="brand-form">
+
+        <!-- REPORT TYPE -->
+        <div class="form-group">
+
+            <label for="report_type">
+                Report Type
+            </label>
+
+            <select
+                id="report_type"
+                name="report_type"
+                required
+            >
+
+                <option value="">
+                    Select Report Type
+                </option>
+
+                <option
+                    value="Production"
+                    {% if report_type == "Production" %}selected{% endif %}
+                >
+                    Production Report
+                </option>
+
+                <option
+                    value="Quality"
+                    {% if report_type == "Quality" %}selected{% endif %}
+                >
+                    Quality Report
+                </option>
+
+                <option
+                    value="Processing"
+                    {% if report_type == "Processing" %}selected{% endif %}
+                >
+                    Processing Report
+                </option>
+
+                <option
+                    value="Packaging"
+                    {% if report_type == "Packaging" %}selected{% endif %}
+                >
+                    Packaging Report
+                </option>
+
+                <option
+                    value="Distribution"
+                    {% if report_type == "Distribution" %}selected{% endif %}
+                >
+                    Distribution Report
+                </option>
+
+                <option
+                    value="Retail"
+                    {% if report_type == "Retail" %}selected{% endif %}
+                >
+                    Retail Report
+                </option>
+
+                <option
+                    value="Complete"
+                    {% if report_type == "Complete" %}selected{% endif %}
+                >
+                    Complete Supply Chain Report
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- REGION -->
+        <div class="form-group">
+
+            <label for="region">
+                Region
+            </label>
+
+            <select
+                id="region"
+                name="region"
+            >
+
+                <option
+                    value="All India"
+                    {% if region == "All India" or not region %}selected{% endif %}
+                >
+                    All India
+                </option>
+
+                <option
+                    value="Karnataka"
+                    {% if region == "Karnataka" %}selected{% endif %}
+                >
+                    Karnataka
+                </option>
+
+                <option
+                    value="Maharashtra"
+                    {% if region == "Maharashtra" %}selected{% endif %}
+                >
+                    Maharashtra
+                </option>
+
+                <option
+                    value="Gujarat"
+                    {% if region == "Gujarat" %}selected{% endif %}
+                >
+                    Gujarat
+                </option>
+
+                <option
+                    value="Tamil Nadu"
+                    {% if region == "Tamil Nadu" %}selected{% endif %}
+                >
+                    Tamil Nadu
+                </option>
+
+                <option
+                    value="Andhra Pradesh"
+                    {% if region == "Andhra Pradesh" %}selected{% endif %}
+                >
+                    Andhra Pradesh
+                </option>
+
+            </select>
+
+        </div>
+
+
+        <!-- FROM DATE -->
+        <div class="form-group">
+
+            <label for="from_date">
+                From Date
+            </label>
+
+            <input
+                type="date"
+                id="from_date"
+                name="from_date"
+                value="{{ from_date or '' }}"
+            >
+
+        </div>
+
+
+        <!-- TO DATE -->
+        <div class="form-group">
+
+            <label for="to_date">
+                To Date
+            </label>
+
+            <input
+                type="date"
+                id="to_date"
+                name="to_date"
+                value="{{ to_date or '' }}"
+            >
+
+        </div>
+
+
+        <!-- BUTTON -->
+        <div class="form-actions">
+
+            <button
+                type="submit"
+                class="primary-button"
+            >
+                GENERATE REPORT
+            </button>
+
+        </div>
+
+    </form>
+
+</section>
+
+
+<!-- ====================================================== -->
+<!-- GENERATED REPORTS FOR INDIVIDUAL REPORT TYPES -->
+<!-- ====================================================== -->
+
+{% if report_data and report_type != "Complete" %}
+
+<section class="panel">
+
+    <!-- REPORT HEADER -->
+    <div class="panel-header">
+
+        <div>
+            <h2>Generated Report</h2>
+
+            <p>
+                {{ report_type }} Report
+            </p>
+        </div>
+
+        <span class="record-count">
+            {{ report_data|length }} Records
+        </span>
+
+    </div>
+
+
+    <!-- REPORT FILTER INFORMATION -->
+    <div class="report-info">
+
+        <div class="report-info-item">
+
+            <span class="report-info-label">
+                Report Type
+            </span>
+
+            <span class="report-info-value">
+                {{ report_type }}
+            </span>
+
+        </div>
+
+
+        <div class="report-info-item">
+
+            <span class="report-info-label">
+                Region
+            </span>
+
+            <span class="report-info-value">
+                {{ region or "All India" }}
+            </span>
+
+        </div>
+
+
+        <div class="report-info-item">
+
+            <span class="report-info-label">
+                From Date
+            </span>
+
+            <span class="report-info-value">
+
+                {% if from_date %}
+                    {{ from_date }}
+                {% else %}
+                    All Dates
+                {% endif %}
+
+            </span>
+
+        </div>
+
+
+        <div class="report-info-item">
+
+            <span class="report-info-label">
+                To Date
+            </span>
+
+            <span class="report-info-value">
+
+                {% if to_date %}
+                    {{ to_date }}
+                {% else %}
+                    All Dates
+                {% endif %}
+
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- RECORDS AVAILABLE -->
+    {% if report_data|length > 0 %}
+
+    <div class="brand-table-wrapper">
+
+        <table class="brand-table">
+
+            <!-- PRODUCTION REPORT -->
+            {% if report_type == "Production" %}
+
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Location</th>
+                    <th>Quantity</th>
+                    <th>Production Date</th>
+                    <th>Batch Number</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for row in report_data %}
+
+                <tr>
+
+                    <td>
+                        {{ row["product_name"] }}
+                    </td>
+
+                    <td>
+                        {{ row["location"] }}
+                    </td>
+
+                    <td>
+                        {{ row["quantity"] }}
+                    </td>
+
+                    <td>
+                        {{ row["production_date"] }}
+                    </td>
+
+                    <td>
+                        {{ row["batch_number"] }}
+                    </td>
+
+                    <td>
+                        {{ row["status"] }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+
+            <!-- QUALITY REPORT -->
+            {% elif report_type == "Quality" %}
+
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Batch Number</th>
+                    <th>Fat</th>
+                    <th>SNF</th>
+                    <th>Test Date</th>
+                    <th>Result</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for row in report_data %}
+
+                <tr>
+
+                    <td>
+                        {{ row["product_name"] }}
+                    </td>
+
+                    <td>
+                        {{ row["batch_number"] }}
+                    </td>
+
+                    <td>
+                        {{ row["fat"] }}
+                    </td>
+
+                    <td>
+                        {{ row["snf"] }}
+                    </td>
+
+                    <td>
+                        {{ row["test_date"] }}
+                    </td>
+
+                    <td>
+                        {{ row["result"] }}
+                    </td>
+
+                    <td>
+                        {{ row["remarks"] }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+
+            <!-- PROCESSING REPORT -->
+            {% elif report_type == "Processing" %}
+
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Process Type</th>
+                    <th>Input Quantity</th>
+                    <th>Output Quantity</th>
+                    <th>Processing Date</th>
+                    <th>Facility</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for row in report_data %}
+
+                <tr>
+
+                    <td>
+                        {{ row["product_name"] }}
+                    </td>
+
+                    <td>
+                        {{ row["process_type"] }}
+                    </td>
+
+                    <td>
+                        {{ row["input_quantity"] }}
+                    </td>
+
+                    <td>
+                        {{ row["output_quantity"] }}
+                    </td>
+
+                    <td>
+                        {{ row["processing_date"] }}
+                    </td>
+
+                    <td>
+                        {{ row["facility"] }}
+                    </td>
+
+                    <td>
+                        {{ row["description"] }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+
+            <!-- PACKAGING REPORT -->
+            {% elif report_type == "Packaging" %}
+
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Package Type</th>
+                    <th>Package Size</th>
+                    <th>Quantity</th>
+                    <th>Packaging Date</th>
+                    <th>Packaging Unit</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for row in report_data %}
+
+                <tr>
+
+                    <td>
+                        {{ row["product_name"] }}
+                    </td>
+
+                    <td>
+                        {{ row["package_type"] }}
+                    </td>
+
+                    <td>
+                        {{ row["package_size"] }}
+                    </td>
+
+                    <td>
+                        {{ row["quantity"] }}
+                    </td>
+
+                    <td>
+                        {{ row["packaging_date"] }}
+                    </td>
+
+                    <td>
+                        {{ row["packaging_unit"] }}
+                    </td>
+
+                    <td>
+                        {{ row["description"] }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+
+            <!-- DISTRIBUTION REPORT -->
+            {% elif report_type == "Distribution" %}
+
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Unit</th>
+                    <th>Source</th>
+                    <th>Destination</th>
+                    <th>Dispatch Date</th>
+                    <th>Transport</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for row in report_data %}
+
+                <tr>
+
+                    <td>
+                        {{ row["product_name"] }}
+                    </td>
+
+                    <td>
+                        {{ row["quantity"] }}
+                    </td>
+
+                    <td>
+                        {{ row["unit"] }}
+                    </td>
+
+                    <td>
+                        {{ row["source"] }}
+                    </td>
+
+                    <td>
+                        {{ row["destination"] }}
+                    </td>
+
+                    <td>
+                        {{ row["dispatch_date"] }}
+                    </td>
+
+                    <td>
+                        {{ row["transport"] }}
+                    </td>
+
+                    <td>
+                        {{ row["description"] }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+
+            <!-- RETAIL REPORT -->
+            {% elif report_type == "Retail" %}
+
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Brand</th>
+                    <th>Quantity</th>
+                    <th>Unit</th>
+                    <th>Outlet</th>
+                    <th>Location</th>
+                    <th>Retail Date</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for row in report_data %}
+
+                <tr>
+
+                    <td>
+                        {{ row["product_name"] }}
+                    </td>
+
+                    <td>
+                        {{ row["brand"] }}
+                    </td>
+
+                    <td>
+                        {{ row["quantity"] }}
+                    </td>
+
+                    <td>
+                        {{ row["unit"] }}
+                    </td>
+
+                    <td>
+                        {{ row["outlet"] }}
+                    </td>
+
+                    <td>
+                        {{ row["location"] }}
+                    </td>
+
+                    <td>
+                        {{ row["retail_date"] }}
+                    </td>
+
+                    <td>
+                        {{ row["description"] }}
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+            {% endif %}
+
+        </table>
+
+    </div>
+
+
+    <!-- NO RECORDS -->
+    {% else %}
+
+    <div class="empty-state">
+
+        <h3>No Records Found</h3>
+
+        <p>
+            No records are available for the selected report type,
+            region, or date range.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endif %}
+
+
+
+<!-- ====================================================== -->
+<!-- COMPLETE SUPPLY CHAIN REPORT -->
+<!-- ====================================================== -->
+
+{% if report_data and report_type == "Complete" %}
+
+<section class="panel">
+
+    <div class="panel-header">
+
+        <div>
+            <h2>Complete Supply Chain Report</h2>
+
+            <p>
+                Complete dairy supply chain records
+            </p>
+        </div>
+
+    </div>
+
+
+    <!-- PRODUCTION SECTION -->
+    <div class="report-section">
+
+        <div class="report-section-header">
+
+            <h3>Production</h3>
+
+            <span class="record-count">
+                {{ report_data["production"]|length }} Records
+            </span>
+
+        </div>
+
+
+        {% if report_data["production"]|length > 0 %}
+
+        <div class="brand-table-wrapper">
+
+            <table class="brand-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Product</th>
+                        <th>Location</th>
+                        <th>Quantity</th>
+                        <th>Date</th>
+                        <th>Batch Number</th>
+                        <th>Status</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for row in report_data["production"] %}
+
+                    <tr>
+
+                        <td>
+                            {{ row["product_name"] }}
+                        </td>
+
+                        <td>
+                            {{ row["location"] }}
+                        </td>
+
+                        <td>
+                            {{ row["quantity"] }}
+                        </td>
+
+                        <td>
+                            {{ row["production_date"] }}
+                        </td>
+
+                        <td>
+                            {{ row["batch_number"] }}
+                        </td>
+
+                        <td>
+                            {{ row["status"] }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <p class="empty-text">
+            No production records available.
+        </p>
+
+        {% endif %}
+
+    </div>
+
+
+
+    <!-- QUALITY SECTION -->
+    <div class="report-section">
+
+        <div class="report-section-header">
+
+            <h3>Quality</h3>
+
+            <span class="record-count">
+                {{ report_data["quality"]|length }} Records
+            </span>
+
+        </div>
+
+
+        {% if report_data["quality"]|length > 0 %}
+
+        <div class="brand-table-wrapper">
+
+            <table class="brand-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Product</th>
+                        <th>Batch Number</th>
+                        <th>Fat</th>
+                        <th>SNF</th>
+                        <th>Test Date</th>
+                        <th>Result</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for row in report_data["quality"] %}
+
+                    <tr>
+
+                        <td>
+                            {{ row["product_name"] }}
+                        </td>
+
+                        <td>
+                            {{ row["batch_number"] }}
+                        </td>
+
+                        <td>
+                            {{ row["fat"] }}
+                        </td>
+
+                        <td>
+                            {{ row["snf"] }}
+                        </td>
+
+                        <td>
+                            {{ row["test_date"] }}
+                        </td>
+
+                        <td>
+                            {{ row["result"] }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <p class="empty-text">
+            No quality records available.
+        </p>
+
+        {% endif %}
+
+    </div>
+
+
+
+    <!-- PROCESSING SECTION -->
+    <div class="report-section">
+
+        <div class="report-section-header">
+
+            <h3>Processing</h3>
+
+            <span class="record-count">
+                {{ report_data["processing"]|length }} Records
+            </span>
+
+        </div>
+
+
+        {% if report_data["processing"]|length > 0 %}
+
+        <div class="brand-table-wrapper">
+
+            <table class="brand-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Product</th>
+                        <th>Process Type</th>
+                        <th>Input Quantity</th>
+                        <th>Output Quantity</th>
+                        <th>Date</th>
+                        <th>Facility</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for row in report_data["processing"] %}
+
+                    <tr>
+
+                        <td>
+                            {{ row["product_name"] }}
+                        </td>
+
+                        <td>
+                            {{ row["process_type"] }}
+                        </td>
+
+                        <td>
+                            {{ row["input_quantity"] }}
+                        </td>
+
+                        <td>
+                            {{ row["output_quantity"] }}
+                        </td>
+
+                        <td>
+                            {{ row["processing_date"] }}
+                        </td>
+
+                        <td>
+                            {{ row["facility"] }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <p class="empty-text">
+            No processing records available.
+        </p>
+
+        {% endif %}
+
+    </div>
+
+
+
+    <!-- PACKAGING SECTION -->
+    <div class="report-section">
+
+        <div class="report-section-header">
+
+            <h3>Packaging</h3>
+
+            <span class="record-count">
+                {{ report_data["packaging"]|length }} Records
+            </span>
+
+        </div>
+
+
+        {% if report_data["packaging"]|length > 0 %}
+
+        <div class="brand-table-wrapper">
+
+            <table class="brand-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Product</th>
+                        <th>Package Type</th>
+                        <th>Package Size</th>
+                        <th>Quantity</th>
+                        <th>Date</th>
+                        <th>Packaging Unit</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for row in report_data["packaging"] %}
+
+                    <tr>
+
+                        <td>
+                            {{ row["product_name"] }}
+                        </td>
+
+                        <td>
+                            {{ row["package_type"] }}
+                        </td>
+
+                        <td>
+                            {{ row["package_size"] }}
+                        </td>
+
+                        <td>
+                            {{ row["quantity"] }}
+                        </td>
+
+                        <td>
+                            {{ row["packaging_date"] }}
+                        </td>
+
+                        <td>
+                            {{ row["packaging_unit"] }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <p class="empty-text">
+            No packaging records available.
+        </p>
+
+        {% endif %}
+
+    </div>
+
+
+
+    <!-- DISTRIBUTION SECTION -->
+    <div class="report-section">
+
+        <div class="report-section-header">
+
+            <h3>Distribution</h3>
+
+            <span class="record-count">
+                {{ report_data["distribution"]|length }} Records
+            </span>
+
+        </div>
+
+
+        {% if report_data["distribution"]|length > 0 %}
+
+        <div class="brand-table-wrapper">
+
+            <table class="brand-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th>Unit</th>
+                        <th>Source</th>
+                        <th>Destination</th>
+                        <th>Dispatch Date</th>
+                        <th>Transport</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for row in report_data["distribution"] %}
+
+                    <tr>
+
+                        <td>
+                            {{ row["product_name"] }}
+                        </td>
+
+                        <td>
+                            {{ row["quantity"] }}
+                        </td>
+
+                        <td>
+                            {{ row["unit"] }}
+                        </td>
+
+                        <td>
+                            {{ row["source"] }}
+                        </td>
+
+                        <td>
+                            {{ row["destination"] }}
+                        </td>
+
+                        <td>
+                            {{ row["dispatch_date"] }}
+                        </td>
+
+                        <td>
+                            {{ row["transport"] }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <p class="empty-text">
+            No distribution records available.
+        </p>
+
+        {% endif %}
+
+    </div>
+
+
+
+    <!-- RETAIL SECTION -->
+    <div class="report-section">
+
+        <div class="report-section-header">
+
+            <h3>Retail</h3>
+
+            <span class="record-count">
+                {{ report_data["retail"]|length }} Records
+            </span>
+
+        </div>
+
+
+        {% if report_data["retail"]|length > 0 %}
+
+        <div class="brand-table-wrapper">
+
+            <table class="brand-table">
+
+                <thead>
+
+                    <tr>
+                        <th>Product</th>
+                        <th>Brand</th>
+                        <th>Quantity</th>
+                        <th>Unit</th>
+                        <th>Outlet</th>
+                        <th>Location</th>
+                        <th>Retail Date</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for row in report_data["retail"] %}
+
+                    <tr>
+
+                        <td>
+                            {{ row["product_name"] }}
+                        </td>
+
+                        <td>
+                            {{ row["brand"] }}
+                        </td>
+
+                        <td>
+                            {{ row["quantity"] }}
+                        </td>
+
+                        <td>
+                            {{ row["unit"] }}
+                        </td>
+
+                        <td>
+                            {{ row["outlet"] }}
+                        </td>
+
+                        <td>
+                            {{ row["location"] }}
+                        </td>
+
+                        <td>
+                            {{ row["retail_date"] }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <p class="empty-text">
+            No retail records available.
+        </p>
+
+        {% endif %}
+
+    </div>
+
+</section>
+
+{% endif %}
+
+
+
+<!-- ====================================================== -->
+<!-- REPORT INFORMATION -->
+<!-- ====================================================== -->
+
+<section class="panel">
+
+    <div class="panel-header">
+        <div>
+            <h2>Report Information</h2>
+            <p>Overview of DairySphere supply chain reports</p>
+        </div>
+    </div>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <div class="stat-info">
+                <span class="stat-label">Production</span>
+                <span class="stat-value">01</span>
+                <p>Production and batch records</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-info">
+                <span class="stat-label">Quality</span>
+                <span class="stat-value">01</span>
+                <p>Quality testing records</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-info">
+                <span class="stat-label">Distribution</span>
+                <span class="stat-value">01</span>
+                <p>Distribution records</p>
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-info">
+                <span class="stat-label">Retail</span>
+                <span class="stat-value">01</span>
+                <p>Retail outlet records</p>
+            </div>
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ====================================================== -->
+<!-- AVAILABLE REPORTS -->
+<!-- ====================================================== -->
+
+<section class="panel">
+
+    <div class="panel-header">
+        <div>
+            <h2>Available Reports</h2>
+            <p>View and analyze dairy supply chain information</p>
+        </div>
+    </div>
+
+    <div class="brand-table-wrapper">
+
+        <table class="brand-table">
+
+            <thead>
+                <tr>
+                    <th>Report</th>
+                    <th>Description</th>
+                    <th>Data Source</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>
+                        <strong>Production Report</strong>
+                    </td>
+
+                    <td>
+                        Production quantity, location and batch information
+                    </td>
+
+                    <td>
+                        Production
+                    </td>
+
+                    <td>
+                        Available
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        <strong>Quality Report</strong>
+                    </td>
+
+                    <td>
+                        Fat, SNF and quality test results
+                    </td>
+
+                    <td>
+                        Quality
+                    </td>
+
+                    <td>
+                        Available
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        <strong>Processing Report</strong>
+                    </td>
+
+                    <td>
+                        Processing input, output and facility information
+                    </td>
+
+                    <td>
+                        Processing
+                    </td>
+
+                    <td>
+                        Available
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        <strong>Packaging Report</strong>
+                    </td>
+
+                    <td>
+                        Package type, size, quantity and unit information
+                    </td>
+
+                    <td>
+                        Packaging
+                    </td>
+
+                    <td>
+                        Available
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        <strong>Distribution Report</strong>
+                    </td>
+
+                    <td>
+                        Source, destination and transportation information
+                    </td>
+
+                    <td>
+                        Distribution
+                    </td>
+
+                    <td>
+                        Available
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        <strong>Retail Report</strong>
+                    </td>
+
+                    <td>
+                        Retail outlet, location and product information
+                    </td>
+
+                    <td>
+                        Retail
+                    </td>
+
+                    <td>
+                        Available
+                    </td>
+                </tr>
+
+
+                <tr>
+                    <td>
+                        <strong>Complete Report</strong>
+                    </td>
+
+                    <td>
+                        Complete dairy supply chain information
+                    </td>
+
+                    <td>
+                        All Modules
+                    </td>
+
+                    <td>
+                        Available
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- ====================================================== -->
+<!-- REPORTING WORKFLOW -->
+<!-- ====================================================== -->
+
+<section class="panel">
+
+    <div class="panel-header">
+        <div>
+            <h2>Reporting Workflow</h2>
+            <p>Steps followed to generate a supply chain report</p>
+        </div>
+    </div>
+
+
+    <div class="brand-table-wrapper">
+
+        <table class="brand-table">
+
+            <thead>
+                <tr>
+                    <th>Step</th>
+                    <th>Process</th>
+                    <th>Description</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+
+                    <td>
+                        <strong>01</strong>
+                    </td>
+
+                    <td>
+                        Select Report
+                    </td>
+
+                    <td>
+                        Choose the required supply chain report type.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <strong>02</strong>
+                    </td>
+
+                    <td>
+                        Apply Filters
+                    </td>
+
+                    <td>
+                        Select region and date range when required.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <strong>03</strong>
+                    </td>
+
+                    <td>
+                        Generate Report
+                    </td>
+
+                    <td>
+                        Submit the selected options to retrieve database records.
+                    </td>
+
+                </tr>
+
+
+                <tr>
+
+                    <td>
+                        <strong>04</strong>
+                    </td>
+
+                    <td>
+                        View Report
+                    </td>
+
+                    <td>
+                        Generated records are displayed in the report section above.
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+{% endblock %}

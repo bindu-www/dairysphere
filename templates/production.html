@@ -1,0 +1,657 @@
+{% extends "base.html" %}
+
+{% block title %}
+DairySphere | Production
+{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+
+<div class="page-header">
+
+    <div>
+
+        <p class="breadcrumb">
+            DairySphere / Supply Chain / Production
+        </p>
+
+        <h1>
+            Production Management
+        </h1>
+
+        <p class="page-description">
+            Monitor milk production and dairy product output across
+            the supply chain.
+        </p>
+
+    </div>
+
+    <div class="page-status">
+        <span class="status-dot"></span>
+        System Operational
+    </div>
+
+</div>
+
+
+<!-- PRODUCTION STATISTICS -->
+
+<div class="stats-grid">
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+            <span>Total Production</span>
+            <div class="stat-icon">PD</div>
+        </div>
+
+        <h2>
+            {{ total_quantity }}
+        </h2>
+
+        <p>
+            Total production quantity
+        </p>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+            <span>Production Records</span>
+            <div class="stat-icon">PR</div>
+        </div>
+
+        <h2>
+            {{ production_data|length }}
+        </h2>
+
+        <p>
+            Recorded production entries
+        </p>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+            <span>Production Units</span>
+            <div class="stat-icon">PU</div>
+        </div>
+
+        <h2>
+            {{ production_units }}
+        </h2>
+
+        <p>
+            Active production locations
+        </p>
+
+    </div>
+
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+            <span>Production Status</span>
+            <div class="stat-icon">AC</div>
+        </div>
+
+        <h2>
+            Active
+        </h2>
+
+        <p>
+            Production network operational
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- MAIN PRODUCTION GRID -->
+
+<div class="brand-management-grid">
+
+
+    <!-- PRODUCTION ENTRY -->
+
+    <section class="panel brand-form-panel">
+
+        <div class="panel-header">
+
+            <div>
+
+                <h2>
+                    Production Entry
+                </h2>
+
+                <p>
+                    Record dairy production information
+                </p>
+
+            </div>
+
+            <div class="panel-code">
+                ADD
+            </div>
+
+        </div>
+
+
+        <form
+            action="{{ url_for('add_production') }}"
+            method="POST"
+            class="brand-form"
+        >
+
+
+            <!-- PRODUCT -->
+
+            <div class="form-group">
+
+                <label for="product_name">
+                    Product
+                </label>
+
+                <select
+                    id="product_name"
+                    name="product_name"
+                    required
+                >
+
+                    <option value="">
+                        Select Product
+                    </option>
+
+                    {% for product in products_data %}
+
+                    <option value="{{ product['name'] }}">
+                        {{ product['name'] }}
+                    </option>
+
+                    {% endfor %}
+
+                </select>
+
+            </div>
+
+
+            <!-- QUANTITY -->
+
+            <div class="form-group">
+
+                <label for="quantity">
+                    Production Quantity
+                </label>
+
+                <input
+                    type="number"
+                    id="quantity"
+                    name="quantity"
+                    placeholder="Example: 5000"
+                    min="0"
+                    step="0.01"
+                    required
+                >
+
+            </div>
+
+
+            <!-- UNIT -->
+
+            <div class="form-group">
+
+                <label for="unit">
+                    Unit
+                </label>
+
+                <select
+                    id="unit"
+                    name="unit"
+                    required
+                >
+
+                    <option value="">
+                        Select Unit
+                    </option>
+
+                    <option value="Litres">
+                        Litres
+                    </option>
+
+                    <option value="Kg">
+                        Kg
+                    </option>
+
+                    <option value="Tonnes">
+                        Tonnes
+                    </option>
+
+                    <option value="Units">
+                        Units
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- DATE -->
+
+            <div class="form-group">
+
+                <label for="production_date">
+                    Production Date
+                </label>
+
+                <input
+                    type="date"
+                    id="production_date"
+                    name="production_date"
+                    required
+                >
+
+            </div>
+
+
+            <!-- LOCATION -->
+
+            <div class="form-group">
+
+                <label for="location">
+                    Production Location
+                </label>
+
+                <input
+                    type="text"
+                    id="location"
+                    name="location"
+                    placeholder="Example: Bengaluru, Karnataka"
+                    required
+                >
+
+            </div>
+
+
+            <!-- BATCH NUMBER -->
+
+            <div class="form-group">
+
+                <label for="batch_number">
+                    Batch Number
+                </label>
+
+                <input
+                    type="text"
+                    id="batch_number"
+                    name="batch_number"
+                    placeholder="Example: DS-001"
+                    required
+                >
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="form-group">
+
+                <label for="status">
+                    Status
+                </label>
+
+                <select
+                    id="status"
+                    name="status"
+                    required
+                >
+
+                    <option value="">
+                        Select Status
+                    </option>
+
+                    <option value="Completed">
+                        Completed
+                    </option>
+
+                    <option value="In Progress">
+                        In Progress
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- DESCRIPTION -->
+
+            <div class="form-group">
+
+                <label for="description">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    rows="4"
+                    placeholder="Enter production details..."
+                ></textarea>
+
+            </div>
+
+
+            <button
+                type="submit"
+                class="primary-button"
+            >
+                Record Production
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- PRODUCTION NETWORK -->
+
+    <section class="panel brand-info-panel">
+
+        <div class="panel-header">
+
+            <div>
+
+                <h2>
+                    Production Network
+                </h2>
+
+                <p>
+                    Dairy production monitoring
+                </p>
+
+            </div>
+
+            <div class="network-badge">
+                INDIA
+            </div>
+
+        </div>
+
+
+        <div class="network-summary">
+
+            <div class="summary-number">
+                {{ total_quantity }}
+            </div>
+
+            <div>
+
+                <strong>
+                    Total Quantity
+                </strong>
+
+                <p>
+                    Dairy production currently
+                    monitored by DairySphere.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="network-features">
+
+
+            <div class="feature-row">
+
+                <div class="feature-icon">
+                    FM
+                </div>
+
+                <div>
+
+                    <strong>
+                        Farmers
+                    </strong>
+
+                    <span>
+                        Milk production at farm level
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="feature-row">
+
+                <div class="feature-icon">
+                    MC
+                </div>
+
+                <div>
+
+                    <strong>
+                        Collection
+                    </strong>
+
+                    <span>
+                        Milk collection centres
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="feature-row">
+
+                <div class="feature-icon">
+                    PR
+                </div>
+
+                <div>
+
+                    <strong>
+                        Processing
+                    </strong>
+
+                    <span>
+                        Conversion into dairy products
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <div class="feature-row">
+
+                <div class="feature-icon">
+                    DS
+                </div>
+
+                <div>
+
+                    <strong>
+                        Distribution
+                    </strong>
+
+                    <span>
+                        Dairy products supplied across regions
+                    </span>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- PRODUCTION RECORDS -->
+
+<section class="panel registered-brands-panel">
+
+    <div class="panel-header">
+
+        <div>
+
+            <h2>
+                Production Records
+            </h2>
+
+            <p>
+                Current dairy production information
+            </p>
+
+        </div>
+
+        <div class="record-count">
+            {{ production_data|length }} Records
+        </div>
+
+    </div>
+
+
+    {% if production_data %}
+
+    <div class="brand-table-wrapper">
+
+        <table class="brand-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Unit</th>
+                    <th>Date</th>
+                    <th>Location</th>
+                    <th>Batch</th>
+                    <th>Status</th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for record in production_data %}
+
+                <tr>
+
+                    <td>
+
+                        <div class="brand-name-cell">
+
+                            <div class="brand-avatar">
+                                PD
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    {{ record["product_name"] }}
+                                </strong>
+
+                                <span>
+                                    Production ID:
+                                    PD-{{ "%03d"|format(record["id"]) }}
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <strong>
+                            {{ record["quantity"] }}
+                        </strong>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="company-badge">
+                            {{ record["unit"] if record["unit"] else "Litres" }}
+                        </span>
+
+                    </td>
+
+
+                    <td>
+                        {{ record["production_date"] }}
+                    </td>
+
+
+                    <td>
+                        {{ record["location"] }}
+                    </td>
+
+
+                    <td>
+                        {{ record["batch_number"] }}
+                    </td>
+
+
+                    <td>
+
+                        <span class="company-badge">
+                            {{ record["status"] }}
+                        </span>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <div class="empty-icon">
+            PD
+        </div>
+
+        <h3>
+            No Production Records
+        </h3>
+
+        <p>
+            Production information will appear here after
+            production records are added to the system.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

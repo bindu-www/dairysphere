@@ -1,0 +1,432 @@
+{% extends "base.html" %}
+
+{% block title %}
+DairySphere | Brands
+{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+
+    <div>
+        <p class="breadcrumb">
+            DairySphere / Management / Brands
+        </p>
+
+        <h1>Brands Management</h1>
+
+        <p class="page-description">
+            Manage dairy companies and brands participating in the supply chain.
+        </p>
+    </div>
+
+    <div class="page-status">
+        <span class="status-dot"></span>
+        System Operational
+    </div>
+
+</div>
+
+
+<!-- BRAND STATISTICS -->
+<div class="stats-grid">
+
+    <div class="stat-card">
+        <div class="stat-header">
+            <span>Total Brands</span>
+            <div class="stat-icon">BR</div>
+        </div>
+
+        <h2>{{ brands|length }}</h2>
+
+        <p>Registered dairy brands</p>
+    </div>
+
+
+    <div class="stat-card">
+        <div class="stat-header">
+            <span>Supply Network</span>
+            <div class="stat-icon">SN</div>
+        </div>
+
+        <h2>India</h2>
+
+        <p>Pan-India dairy network</p>
+    </div>
+
+
+    <div class="stat-card">
+        <div class="stat-header">
+            <span>Primary Region</span>
+            <div class="stat-icon">KA</div>
+        </div>
+
+        <h2>Karnataka</h2>
+
+        <p>Primary monitoring region</p>
+    </div>
+
+
+    <div class="stat-card">
+        <div class="stat-header">
+            <span>Status</span>
+            <div class="stat-icon">AC</div>
+        </div>
+
+        <h2>Active</h2>
+
+        <p>Brand management system</p>
+    </div>
+
+</div>
+
+
+<!-- MAIN BRAND GRID -->
+<div class="brand-management-grid">
+
+
+    <!-- ADD BRAND -->
+    <section class="panel brand-form-panel">
+
+        <div class="panel-header">
+
+            <div>
+                <h2>Add New Brand</h2>
+
+                <p>
+                    Register a dairy company or brand
+                </p>
+            </div>
+
+            <div class="panel-code">
+                ADD
+            </div>
+
+        </div>
+
+
+        <form action="{{ url_for('add_brand') }}" method="POST"
+              class="brand-form">
+
+            <div class="form-group">
+
+                <label for="name">
+                    Brand Name
+                </label>
+
+                <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    placeholder="Example: Nandini"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="company_type">
+                    Company Type
+                </label>
+
+                <select
+                    id="company_type"
+                    name="company_type"
+                    required
+                >
+
+                    <option value="">
+                        Select company type
+                    </option>
+
+                    <option value="Cooperative">
+                        Cooperative
+                    </option>
+
+                    <option value="Private">
+                        Private
+                    </option>
+
+                    <option value="Government">
+                        Government
+                    </option>
+
+                    <option value="Multinational">
+                        Multinational
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="headquarters">
+                    Headquarters
+                </label>
+
+                <input
+                    type="text"
+                    id="headquarters"
+                    name="headquarters"
+                    placeholder="Example: Bengaluru, Karnataka"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="description">
+                    Description
+                </label>
+
+                <textarea
+                    id="description"
+                    name="description"
+                    rows="5"
+                    placeholder="Enter information about the dairy brand..."
+                ></textarea>
+
+            </div>
+
+
+            <button type="submit" class="primary-button">
+                Add Brand
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- BRAND INFORMATION -->
+    <section class="panel brand-info-panel">
+
+        <div class="panel-header">
+
+            <div>
+                <h2>Brand Network</h2>
+
+                <p>
+                    Dairy brands connected to DairySphere
+                </p>
+            </div>
+
+            <div class="network-badge">
+                INDIA
+            </div>
+
+        </div>
+
+
+        <div class="network-summary">
+
+            <div class="summary-number">
+                {{ brands|length }}
+            </div>
+
+            <div>
+                <strong>Registered Brands</strong>
+
+                <p>
+                    Companies currently monitored
+                    within the dairy supply chain.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="network-features">
+
+            <div class="feature-row">
+
+                <div class="feature-icon">
+                    PR
+                </div>
+
+                <div>
+                    <strong>Production</strong>
+                    <span>Track dairy production</span>
+                </div>
+
+            </div>
+
+
+            <div class="feature-row">
+
+                <div class="feature-icon">
+                    QL
+                </div>
+
+                <div>
+                    <strong>Quality</strong>
+                    <span>Monitor quality standards</span>
+                </div>
+
+            </div>
+
+
+            <div class="feature-row">
+
+                <div class="feature-icon">
+                    DS
+                </div>
+
+                <div>
+                    <strong>Distribution</strong>
+                    <span>Monitor supply movement</span>
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- REGISTERED BRANDS -->
+<section class="panel registered-brands-panel">
+
+    <div class="panel-header">
+
+        <div>
+            <h2>Registered Brands</h2>
+
+            <p>
+                Complete list of dairy companies in the system
+            </p>
+        </div>
+
+        <div class="record-count">
+            {{ brands|length }} Records
+        </div>
+
+    </div>
+
+
+    {% if brands %}
+
+    <div class="brand-table-wrapper">
+
+        <table class="brand-table">
+
+            <thead>
+
+                <tr>
+                    <th>Brand</th>
+                    <th>Company Type</th>
+                    <th>Headquarters</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% for brand in brands %}
+
+                <tr>
+
+                    <td>
+
+                        <div class="brand-name-cell">
+
+                            <div class="brand-avatar">
+                                {{ brand.name[:2]|upper }}
+                            </div>
+
+                            <div>
+                                <strong>
+                                    {{ brand.name }}
+                                </strong>
+
+                                <span>
+                                    Brand ID: BR-{{ "%03d"|format(brand.id) }}
+                                </span>
+                            </div>
+
+                        </div>
+
+                    </td>
+
+
+                    <td>
+
+                        <span class="company-badge">
+                            {{ brand.company_type }}
+                        </span>
+
+                    </td>
+
+
+                    <td>
+                        {{ brand.headquarters }}
+                    </td>
+
+
+                    <td class="description-cell">
+
+                        {% if brand.description %}
+                            {{ brand.description }}
+                        {% else %}
+                            No description available
+                        {% endif %}
+
+                    </td>
+
+
+                    <td>
+
+                        <a
+                            href="{{ url_for('delete_brand', brand_id=brand.id) }}"
+                            class="delete-button"
+                            onclick="return confirm('Are you sure you want to delete this brand?');"
+                        >
+                            Delete
+                        </a>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+    {% else %}
+
+    <div class="empty-state">
+
+        <div class="empty-icon">
+            BR
+        </div>
+
+        <h3>No Brands Registered</h3>
+
+        <p>
+            Start building your dairy network by adding
+            your first dairy brand using the form above.
+        </p>
+
+    </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}

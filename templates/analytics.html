@@ -1,0 +1,1121 @@
+{% extends "base.html" %}
+
+{% block title %}
+DairySphere | Analytics
+{% endblock %}
+
+{% block content %}
+
+<!-- PAGE HEADER -->
+
+<div class="page-header">
+
+    <div>
+
+        <p class="breadcrumb">
+            DairySphere / Analysis / Analytics
+        </p>
+
+        <h1>
+            Dairy Supply Chain Analytics
+        </h1>
+
+        <p class="page-description">
+            Analyze production, quality, processing,
+            packaging, distribution and retail performance.
+        </p>
+
+    </div>
+
+    <div class="page-status">
+        <span class="status-dot"></span>
+        Analytics Active
+    </div>
+
+</div>
+
+
+<!-- ANALYTICS STATISTICS -->
+
+<div class="stats-grid">
+
+
+    <!-- TOTAL PRODUCTION -->
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+
+            <span>
+                Total Production
+            </span>
+
+            <div class="stat-icon">
+                PR
+            </div>
+
+        </div>
+
+        <h2>
+            {{ total_production }}
+        </h2>
+
+        <p>
+            Total production quantity
+        </p>
+
+    </div>
+
+
+    <!-- QUALITY RATE -->
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+
+            <span>
+                Quality Rate
+            </span>
+
+            <div class="stat-icon">
+                QL
+            </div>
+
+        </div>
+
+        <h2>
+            {{ quality_rate }}%
+        </h2>
+
+        <p>
+            Passed quality tests
+        </p>
+
+    </div>
+
+
+    <!-- PROCESSING -->
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+
+            <span>
+                Processing Output
+            </span>
+
+            <div class="stat-icon">
+                PC
+            </div>
+
+        </div>
+
+        <h2>
+            {{ total_processing_output }}
+        </h2>
+
+        <p>
+            Total processed output
+        </p>
+
+    </div>
+
+
+    <!-- DISTRIBUTION -->
+
+    <div class="stat-card">
+
+        <div class="stat-header">
+
+            <span>
+                Distribution
+            </span>
+
+            <div class="stat-icon">
+                DS
+            </div>
+
+        </div>
+
+        <h2>
+            {{ total_distribution }}
+        </h2>
+
+        <p>
+            Total distributed quantity
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- DATABASE SUMMARY -->
+
+<div class="dashboard-grid">
+
+
+    <!-- PRODUCTION SUMMARY -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+
+            <div>
+
+                <h2>
+                    Production Performance
+                </h2>
+
+                <p>
+                    Latest production records from database
+                </p>
+
+            </div>
+
+            <div class="panel-code">
+                PR
+            </div>
+
+        </div>
+
+
+        <div class="analytics-list">
+
+            {% if recent_production %}
+
+                {% for item in recent_production %}
+
+                <div class="analytics-row">
+
+                    <div>
+
+                        <strong>
+                            {{ item["product_name"] }}
+                        </strong>
+
+                        <span>
+                            {{ item["location"] }}
+                            • {{ item["production_date"] }}
+                        </span>
+
+                    </div>
+
+                    <strong>
+                        {{ item["quantity"] }}
+                    </strong>
+
+                    <span>
+                        {{ item["status"] }}
+                    </span>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <div class="analytics-row">
+
+                    <div>
+
+                        <strong>
+                            No production data
+                        </strong>
+
+                        <span>
+                            Add production records to view analytics.
+                        </span>
+
+                    </div>
+
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </section>
+
+
+    <!-- QUALITY SUMMARY -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+
+            <div>
+
+                <h2>
+                    Quality Performance
+                </h2>
+
+                <p>
+                    Quality testing results
+                </p>
+
+            </div>
+
+            <div class="panel-code">
+                QL
+            </div>
+
+        </div>
+
+
+        <div class="quality-summary">
+
+
+            <div class="quality-item">
+
+                <div class="quality-code">
+                    TS
+                </div>
+
+                <div>
+
+                    <strong>
+                        Total Tests
+                    </strong>
+
+                    <span>
+                        Quality tests performed
+                    </span>
+
+                </div>
+
+                <strong>
+                    {{ total_quality_tests }}
+                </strong>
+
+            </div>
+
+
+            <div class="quality-item">
+
+                <div class="quality-code">
+                    PA
+                </div>
+
+                <div>
+
+                    <strong>
+                        Passed
+                    </strong>
+
+                    <span>
+                        Approved quality tests
+                    </span>
+
+                </div>
+
+                <strong>
+                    {{ passed_quality }}
+                </strong>
+
+            </div>
+
+
+            <div class="quality-item">
+
+                <div class="quality-code">
+                    FL
+                </div>
+
+                <div>
+
+                    <strong>
+                        Failed
+                    </strong>
+
+                    <span>
+                        Failed quality tests
+                    </span>
+
+                </div>
+
+                <strong>
+                    {{ failed_quality }}
+                </strong>
+
+            </div>
+
+
+            <div class="quality-item">
+
+                <div class="quality-code">
+                    QR
+                </div>
+
+                <div>
+
+                    <strong>
+                        Quality Rate
+                    </strong>
+
+                    <span>
+                        Overall quality compliance
+                    </span>
+
+                </div>
+
+                <strong>
+                    {{ quality_rate }}%
+                </strong>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+</div>
+
+
+<!-- SUPPLY CHAIN SUMMARY -->
+
+<section class="panel">
+
+    <div class="panel-header">
+
+        <div>
+
+            <h2>
+                Supply Chain Performance
+            </h2>
+
+            <p>
+                Database-based operational summary
+            </p>
+
+        </div>
+
+        <div class="record-count">
+            Live Database
+        </div>
+
+    </div>
+
+
+    <div class="brand-table-wrapper">
+
+        <table class="brand-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Supply Chain Stage
+                    </th>
+
+                    <th>
+                        Records
+                    </th>
+
+                    <th>
+                        Quantity / Output
+                    </th>
+
+                    <th>
+                        Monitoring
+                    </th>
+
+                    <th>
+                        Status
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+
+                <!-- PRODUCTION -->
+
+                <tr>
+
+                    <td>
+
+                        <div class="brand-name-cell">
+
+                            <div class="brand-avatar">
+                                PR
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Production
+                                </strong>
+
+                                <span>
+                                    Milk production records
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+                    <td>
+                        {{ production_records }}
+                    </td>
+
+                    <td>
+                        {{ total_production }}
+                    </td>
+
+                    <td>
+                        Active
+                    </td>
+
+                    <td>
+                        <span class="company-badge">
+                            Monitored
+                        </span>
+                    </td>
+
+                </tr>
+
+
+                <!-- QUALITY -->
+
+                <tr>
+
+                    <td>
+
+                        <div class="brand-name-cell">
+
+                            <div class="brand-avatar">
+                                QL
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Quality
+                                </strong>
+
+                                <span>
+                                    Quality testing records
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+                    <td>
+                        {{ total_quality_tests }}
+                    </td>
+
+                    <td>
+                        {{ quality_rate }}%
+                    </td>
+
+                    <td>
+                        Continuous
+                    </td>
+
+                    <td>
+                        <span class="company-badge">
+                            {{ passed_quality }} Passed
+                        </span>
+                    </td>
+
+                </tr>
+
+
+                <!-- PROCESSING -->
+
+                <tr>
+
+                    <td>
+
+                        <div class="brand-name-cell">
+
+                            <div class="brand-avatar">
+                                PC
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Processing
+                                </strong>
+
+                                <span>
+                                    Dairy processing operations
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+                    <td>
+                        {{ processing_records }}
+                    </td>
+
+                    <td>
+                        {{ total_processing_output }}
+                    </td>
+
+                    <td>
+                        Active
+                    </td>
+
+                    <td>
+                        <span class="company-badge">
+                            Monitored
+                        </span>
+                    </td>
+
+                </tr>
+
+
+                <!-- PACKAGING -->
+
+                <tr>
+
+                    <td>
+
+                        <div class="brand-name-cell">
+
+                            <div class="brand-avatar">
+                                PK
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Packaging
+                                </strong>
+
+                                <span>
+                                    Product packaging operations
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+                    <td>
+                        {{ packaging_records }}
+                    </td>
+
+                    <td>
+                        {{ total_packaging }}
+                    </td>
+
+                    <td>
+                        Active
+                    </td>
+
+                    <td>
+                        <span class="company-badge">
+                            Monitored
+                        </span>
+                    </td>
+
+                </tr>
+
+
+                <!-- DISTRIBUTION -->
+
+                <tr>
+
+                    <td>
+
+                        <div class="brand-name-cell">
+
+                            <div class="brand-avatar">
+                                DS
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Distribution
+                                </strong>
+
+                                <span>
+                                    Product movement network
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+                    <td>
+                        {{ distribution_records }}
+                    </td>
+
+                    <td>
+                        {{ total_distribution }}
+                    </td>
+
+                    <td>
+                        {{ distribution_destinations }} Destinations
+                    </td>
+
+                    <td>
+                        <span class="company-badge">
+                            Active
+                        </span>
+                    </td>
+
+                </tr>
+
+
+                <!-- RETAIL -->
+
+                <tr>
+
+                    <td>
+
+                        <div class="brand-name-cell">
+
+                            <div class="brand-avatar">
+                                RT
+                            </div>
+
+                            <div>
+
+                                <strong>
+                                    Retail
+                                </strong>
+
+                                <span>
+                                    Consumer distribution outlets
+                                </span>
+
+                            </div>
+
+                        </div>
+
+                    </td>
+
+                    <td>
+                        {{ retail_records }}
+                    </td>
+
+                    <td>
+                        {{ total_retail }}
+                    </td>
+
+                    <td>
+                        {{ retail_outlets }} Outlets
+                    </td>
+
+                    <td>
+                        <span class="company-badge">
+                            Active
+                        </span>
+                    </td>
+
+                </tr>
+
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- RECENT QUALITY -->
+
+<section class="panel">
+
+    <div class="panel-header">
+
+        <div>
+
+            <h2>
+                Recent Quality Tests
+            </h2>
+
+            <p>
+                Latest quality records from the database
+            </p>
+
+        </div>
+
+        <div class="record-count">
+            {{ total_quality_tests }} Tests
+        </div>
+
+    </div>
+
+
+    <div class="brand-table-wrapper">
+
+        <table class="brand-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Product
+                    </th>
+
+                    <th>
+                        Batch
+                    </th>
+
+                    <th>
+                        Fat
+                    </th>
+
+                    <th>
+                        SNF
+                    </th>
+
+                    <th>
+                        Result
+                    </th>
+
+                    <th>
+                        Date
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% if recent_quality %}
+
+                    {% for item in recent_quality %}
+
+                    <tr>
+
+                        <td>
+                            {{ item["product_name"] }}
+                        </td>
+
+                        <td>
+                            {{ item["batch_number"] }}
+                        </td>
+
+                        <td>
+                            {{ item["fat"] }}
+                        </td>
+
+                        <td>
+                            {{ item["snf"] }}
+                        </td>
+
+                        <td>
+                            <span class="company-badge">
+                                {{ item["result"] }}
+                            </span>
+                        </td>
+
+                        <td>
+                            {{ item["test_date"] }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="6">
+                            No quality records available.
+                        </td>
+
+                    </tr>
+
+                {% endif %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- RECENT DISTRIBUTION -->
+
+<section class="panel">
+
+    <div class="panel-header">
+
+        <div>
+
+            <h2>
+                Recent Distribution
+            </h2>
+
+            <p>
+                Latest distribution movements
+            </p>
+
+        </div>
+
+        <div class="record-count">
+            {{ distribution_records }} Records
+        </div>
+
+    </div>
+
+
+    <div class="brand-table-wrapper">
+
+        <table class="brand-table">
+
+            <thead>
+
+                <tr>
+
+                    <th>
+                        Product
+                    </th>
+
+                    <th>
+                        Quantity
+                    </th>
+
+                    <th>
+                        Source
+                    </th>
+
+                    <th>
+                        Destination
+                    </th>
+
+                    <th>
+                        Date
+                    </th>
+
+                </tr>
+
+            </thead>
+
+
+            <tbody>
+
+                {% if recent_distribution %}
+
+                    {% for item in recent_distribution %}
+
+                    <tr>
+
+                        <td>
+                            {{ item["product_name"] }}
+                        </td>
+
+                        <td>
+                            {{ item["quantity"] }}
+                            {{ item["unit"] }}
+                        </td>
+
+                        <td>
+                            {{ item["source"] }}
+                        </td>
+
+                        <td>
+                            {{ item["destination"] }}
+                        </td>
+
+                        <td>
+                            {{ item["dispatch_date"] }}
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <tr>
+
+                        <td colspan="5">
+                            No distribution records available.
+                        </td>
+
+                    </tr>
+
+                {% endif %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- SYSTEM SUMMARY -->
+
+<div class="dashboard-grid">
+
+
+    <!-- DATABASE OVERVIEW -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+
+            <div>
+
+                <h2>
+                    Database Overview
+                </h2>
+
+                <p>
+                    Current DairySphere data
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="module-list">
+
+
+            <div class="module-row">
+
+                <div class="module-code">
+                    BR
+                </div>
+
+                <div>
+
+                    <strong>
+                        Registered Brands
+                    </strong>
+
+                    <p>
+                        {{ total_brands }} brands registered
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="module-row">
+
+                <div class="module-code">
+                    PR
+                </div>
+
+                <div>
+
+                    <strong>
+                        Products
+                    </strong>
+
+                    <p>
+                        {{ total_products }} products registered
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="module-row">
+
+                <div class="module-code">
+                    RT
+                </div>
+
+                <div>
+
+                    <strong>
+                        Retail Outlets
+                    </strong>
+
+                    <p>
+                        {{ retail_outlets }} outlets monitored
+                    </p>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- ANALYSIS SUMMARY -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+
+            <div>
+
+                <h2>
+                    Analysis Summary
+                </h2>
+
+                <p>
+                    Current system performance
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="network-summary">
+
+            <div class="summary-number">
+                {{ quality_rate }}%
+            </div>
+
+            <div>
+
+                <strong>
+                    Quality Compliance
+                </strong>
+
+                <p>
+                    {{ passed_quality }}
+                    of {{ total_quality_tests }}
+                    quality tests have passed.
+                    Production, processing, packaging,
+                    distribution and retail data are being
+                    monitored through the DairySphere system.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</div>
+
+
+{% endblock %}
