@@ -1,106 +1,471 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
+    <title>DairySphere | Create Account</title>
 
-    <title>DairySphere | Register</title>
+    <style>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            min-height: 100vh;
+            background: #f4f7f7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* MAIN CONTAINER */
+
+        .register-container {
+            width: 790px;
+            min-height: 495px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+
+            display: grid;
+            grid-template-columns: 50% 50%;
+
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.10);
+        }
+
+
+        /* LEFT SIDE */
+
+        .left-section {
+            background: linear-gradient(
+                145deg,
+                #08783f,
+                #0b9250
+            );
+
+            color: white;
+            padding: 55px 45px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+
+        /* LOGO */
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 42px;
+        }
+
+        .logo {
+            width: 44px;
+            height: 44px;
+
+            background: white;
+            color: #08783f;
+
+            border-radius: 8px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .brand-name {
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .brand-subtitle {
+            font-size: 9px;
+            font-weight: 500;
+            margin-top: 2px;
+            opacity: 0.9;
+        }
+
+
+        /* LEFT CONTENT */
+
+        .left-section h1 {
+            font-size: 29px;
+            line-height: 1.2;
+            margin-bottom: 17px;
+        }
+
+        .left-section p {
+            font-size: 12px;
+            line-height: 1.7;
+            max-width: 300px;
+            opacity: 0.92;
+        }
+
+
+        /* FEATURES */
+
+        .features {
+            margin-top: 30px;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .feature-icon {
+            width: 23px;
+            height: 23px;
+
+            border: 1px solid rgba(255,255,255,0.7);
+            border-radius: 5px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 8px;
+            font-weight: 700;
+        }
+
+
+        /* RIGHT SIDE */
+
+        .right-section {
+            padding: 45px 45px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+
+        .right-section h2 {
+            font-size: 24px;
+            color: #111827;
+            margin-bottom: 7px;
+        }
+
+        .subtitle {
+            font-size: 11px;
+            color: #6b7280;
+            margin-bottom: 27px;
+        }
+
+
+        /* FORM */
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-group label {
+            display: block;
+
+            font-size: 10px;
+            font-weight: 600;
+
+            color: #111827;
+
+            margin-bottom: 7px;
+        }
+
+        .form-group input {
+            width: 100%;
+            height: 37px;
+
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+
+            padding: 0 11px;
+
+            font-size: 11px;
+
+            outline: none;
+
+            background: #ffffff;
+        }
+
+        .form-group input:focus {
+            border-color: #0b9250;
+
+            box-shadow:
+                0 0 0 2px rgba(11, 146, 80, 0.10);
+        }
+
+        .form-group input::placeholder {
+            color: #9ca3af;
+        }
+
+
+        /* PASSWORD NOTE */
+
+        .password-note {
+            font-size: 9px;
+            color: #9ca3af;
+            margin-top: 5px;
+        }
+
+
+        /* BUTTON */
+
+        .register-button {
+            width: 100%;
+            height: 37px;
+
+            border: none;
+            border-radius: 6px;
+
+            background: #08783f;
+            color: white;
+
+            font-size: 11px;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            margin-top: 3px;
+        }
+
+        .register-button:hover {
+            background: #066936;
+        }
+
+
+        /* LOGIN LINK */
+
+        .login-link {
+            text-align: center;
+
+            font-size: 10px;
+
+            color: #777;
+
+            margin-top: 18px;
+        }
+
+        .login-link a {
+            color: #08783f;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* FOOTER */
+
+        .copyright {
+            text-align: center;
+
+            font-size: 8px;
+
+            color: #9ca3af;
+
+            margin-top: 25px;
+        }
+
+
+        /* RESPONSIVE */
+
+        @media (max-width: 750px) {
+
+            .register-container {
+                width: 92%;
+                grid-template-columns: 1fr;
+            }
+
+            .left-section {
+                padding: 35px;
+            }
+
+            .features {
+                display: none;
+            }
+
+            .right-section {
+                padding: 35px;
+            }
+        }
+
+    </style>
 </head>
 
 
-<body class="login-page">
+<body>
+
+    <div class="register-container">
 
 
-<div class="login-wrapper">
+        <!-- LEFT SECTION -->
 
+        <div class="left-section">
 
-    <div class="login-card">
+            <div class="brand">
 
+                <div class="logo">
+                    DS
+                </div>
 
-        <div class="brand-section">
+                <div>
+                    <div class="brand-name">
+                        DairySphere
+                    </div>
 
-            <div class="brand-mark">
-                DS
+                    <div class="brand-subtitle">
+                        INDIA DAIRY SUPPLY CHAIN MANAGEMENT
+                    </div>
+                </div>
+
             </div>
 
-            <h1>DairySphere</h1>
+
+            <h1>
+                Create your DairySphere account.
+            </h1>
+
 
             <p>
-                Create your account
+                Register to manage dairy production, quality,
+                processing, packaging, distribution and retail
+                operations through one integrated platform.
             </p>
+
+
+            <div class="features">
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        PR
+                    </div>
+
+                    <span>
+                        Production & Collection Management
+                    </span>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        QL
+                    </div>
+
+                    <span>
+                        Quality Monitoring & Compliance
+                    </span>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+                        DS
+                    </div>
+
+                    <span>
+                        Distribution & Supply Tracking
+                    </span>
+
+                </div>
+
+            </div>
 
         </div>
 
 
-        <div class="login-content">
+        <!-- RIGHT SECTION -->
 
-            <h2>Create Account</h2>
+        <div class="right-section">
 
-            <p class="login-description">
-                Register to access the dairy supply chain system.
-            </p>
+            <h2>
+                Create Account
+            </h2>
 
-
-            {% if error %}
-
-            <div class="error-message">
-                {{ error }}
+            <div class="subtitle">
+                Register to access your DairySphere dashboard.
             </div>
 
-            {% endif %}
+
+            <form
+                method="POST"
+                action="{{ url_for('register') }}"
+            >
 
 
-            <form method="POST">
-
+                <!-- USERNAME -->
 
                 <div class="form-group">
 
-                    <label>
+                    <label for="username">
                         Username
                     </label>
 
                     <input
                         type="text"
+                        id="username"
                         name="username"
-                        placeholder="Create username"
+                        placeholder="Enter username"
                         required
                     >
 
                 </div>
 
 
+                <!-- PASSWORD -->
+
                 <div class="form-group">
 
-                    <label>
+                    <label for="password">
                         Password
                     </label>
 
                     <input
                         type="password"
+                        id="password"
                         name="password"
-                        placeholder="Create password"
+                        placeholder="Enter password"
                         required
                     >
+
+                    <div class="password-note">
+                        Use a strong password to protect your account.
+                    </div>
 
                 </div>
 
 
+                <!-- CONFIRM PASSWORD -->
+
                 <div class="form-group">
 
-                    <label>
+                    <label for="confirm_password">
                         Confirm Password
                     </label>
 
                     <input
                         type="password"
+                        id="confirm_password"
                         name="confirm_password"
                         placeholder="Confirm password"
                         required
@@ -109,40 +474,40 @@
                 </div>
 
 
+                <!-- BUTTON -->
+
                 <button
                     type="submit"
-                    class="login-button">
-
+                    class="register-button"
+                >
                     Create Account
-
                 </button>
-
 
             </form>
 
 
-            <div class="register-link">
+            <!-- LOGIN LINK -->
 
-                <p>
-                    Already have an account?
+            <div class="login-link">
 
-                    <a href="/login">
-                        Sign in
-                    </a>
-                </p>
+                Already have an account?
+
+                <a href="{{ url_for('login') }}">
+                    Sign in
+                </a>
 
             </div>
 
 
-        </div>
+            <!-- FOOTER -->
 
+            <div class="copyright">
+                DairySphere Supply Chain Management System
+            </div>
+
+        </div>
 
     </div>
 
-
-</div>
-
-
 </body>
-
 </html>
